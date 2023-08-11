@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.6.33815.320
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MiniStore", "MiniStore.csproj", "{20A07005-6AF1-4A85-8191-CED5265A125B}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{20A07005-6AF1-4A85-8191-CED5265A125B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20A07005-6AF1-4A85-8191-CED5265A125B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20A07005-6AF1-4A85-8191-CED5265A125B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20A07005-6AF1-4A85-8191-CED5265A125B}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {84CDAB27-A4A3-4747-8958-5ACA318F5263}
+	EndGlobalSection
+EndGlobal
