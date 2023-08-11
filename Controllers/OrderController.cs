@@ -22,16 +22,17 @@ namespace MiniStore.Controllers
             return null;
         }
 
-        [HttpPost("")]
-        public async Task<IActionResult> CreateOrder(Order create)
-        {
-            var order = new Order
-            {
-                OrderId = create.OrderId,
-                CreateDate = DateTime.Now,
-                Amount = 0,
-                CustomerName = 
-            };
-        }
+        //[HttpPost("")]
+        //public async Task<IActionResult> CreateOrder(Order create)
+        //{
+        //    var order = new Order
+        //    {
+        //        OrderId = create.OrderId,
+        //        CreateDate = DateTime.Now,
+        //        Amount = 0,
+        //        CustomerName = create.CustomerName,
+                
+        //    };
+        //}
     }
 }
