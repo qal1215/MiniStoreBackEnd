@@ -19,7 +19,7 @@ namespace MiniStore.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ViewOrder>>> GetAllOrder()
         {
-            return null;
+            return Ok(Enumerable.Empty<ViewOrder>());
         }
 
         //[HttpPost("")]
@@ -31,7 +31,7 @@ namespace MiniStore.Controllers
         //        CreateDate = DateTime.Now,
         //        Amount = 0,
         //        CustomerName = create.CustomerName,
-                
+
         //    };
         //}
     }

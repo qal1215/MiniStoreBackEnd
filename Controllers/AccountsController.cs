@@ -1,12 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Context;
 using MiniStore.Models;
@@ -18,12 +11,10 @@ namespace MiniStore.Controllers
     public class AccountsController : ControllerBase
     {
         private readonly MiniStoreContext _context;
-        private readonly IMapper _mapper;
 
-        public AccountsController(MiniStoreContext context, IMapper mapper)
+        public AccountsController(MiniStoreContext context)
         {
             _context = context;
-            _mapper = mapper;
         }
 
         [EnableCors("Default")]
@@ -31,7 +22,7 @@ namespace MiniStore.Controllers
         public async Task<ActionResult<ViewAccount>> Login(LoginRecord login)
         {
             var result = await _context.Accounts
-                .Where(a => a.Email.Equals(login.Email) && a.Password.Equals(login.Password))
+                .Where(a => a.Email.Equals(login.Email) && a.Password.Equals(login.Password) && a.IsActive == true)
                 .Select(a => new ViewAccount
                 {
                     Id = a.Id,
@@ -77,9 +68,10 @@ namespace MiniStore.Controllers
 
         [EnableCors("Default")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ViewAccount>>> GetAllAccount()
+        public async Task<ActionResult<IEnumerable<ViewAccount>>> GetAllEmployees()
         {
             var result = await _context.Accounts
+                .Where(a => !a.Role.RoleId.Equals(1))
                 .Select(a => new ViewAccount
                 {
                     Id = a.Id,
@@ -113,7 +105,7 @@ namespace MiniStore.Controllers
                     IsActive = a.IsActive
                 }).FirstOrDefaultAsync();
 
-            if (result is null) return NotFound(new {Message = "Not found account"});
+            if (result is null) return NotFound(new { Message = "Not found account" });
             return Ok(result!);
         }
 
@@ -153,6 +145,28 @@ namespace MiniStore.Controllers
                 return BadRequest(new { Message = "Something wrong\r\n" + ex.Message });
             }
         }
+
+        [EnableCors("Default")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAccount(string id)
+        {
+            try
+            {
+                var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id.Equals(id));
+                if (account == null) return NotFound();
+
+                _context.Accounts.Remove(account);
+                await _context.SaveChangesAsync();
+
+                return Ok();
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+        }
+
+
 
         private bool AccountExists(string email, string id)
         {

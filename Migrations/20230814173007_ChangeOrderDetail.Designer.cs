@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniStore.Context;
 
@@ -11,9 +12,11 @@ using MiniStore.Context;
 namespace MiniStore.Migrations
 {
     [DbContext(typeof(MiniStoreContext))]
-    partial class MiniStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230814173007_ChangeOrderDetail")]
+    partial class ChangeOrderDetail
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -147,7 +150,6 @@ namespace MiniStore.Migrations
             modelBuilder.Entity("MiniStore.Models.Product", b =>
                 {
                     b.Property<string>("Id")
-                        .ValueGeneratedOnAdd()
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<int>("CategoryId")

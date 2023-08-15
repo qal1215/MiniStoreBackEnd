@@ -15,8 +15,6 @@ builder.Services.AddDbContext<MiniStoreContext>(o =>
     o.UseSqlServer(builder.Configuration.GetConnectionString("Default"));
 });
 
-builder.Services.AddAutoMapper(typeof(AutoMapperProfile).Assembly);
-
 builder.Services.AddCors(options =>
 {
     options.AddPolicy(

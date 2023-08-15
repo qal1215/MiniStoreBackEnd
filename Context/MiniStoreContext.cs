@@ -27,11 +27,6 @@ namespace MiniStore.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<OrderDetail>(c =>
-            {
-                c.HasNoKey();
-            });
-
             base.OnModelCreating(modelBuilder);
         }
     }

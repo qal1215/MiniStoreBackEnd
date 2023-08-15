@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Context;
 using MiniStore.Models;
@@ -78,11 +79,19 @@ namespace MiniStore.Controllers
             try
             {
                 var category = await _context.Categories.FirstOrDefaultAsync(c => c.Name.Equals(product.Category));
-                if (category == null) return BadRequest(new { Message = "Category not correct!" });
+                if (category == null)
+                {
+                    await _context.Categories.AddAsync(new Category
+                    {
+                        Name = product.Category!
+                    });
+                    await _context.SaveChangesAsync();
+                    category = await _context.Categories.FirstOrDefaultAsync(c => c.Name.Equals(product.Category));
+                }
 
                 var model = new Product
                 {
-                    Category = category,
+                    Category = category!,
                     Id = product.Id,
                     Name = product.Name,
                     Description = product.Description,
@@ -98,7 +107,7 @@ namespace MiniStore.Controllers
             }
             catch
             {
-                return NoContent();
+                return BadRequest();
             }
         }
 
@@ -119,7 +128,15 @@ namespace MiniStore.Controllers
                 else
                 {
                     var category = await _context.Categories.FirstOrDefaultAsync(c => c.Name.Equals(product.Category));
-                    if (category == null) return BadRequest(new { Message = "Category not correct!" });
+                    if (category == null)
+                    {
+                        await _context.Categories.AddAsync(new Category
+                        {
+                            Name = product.Category!
+                        });
+                        await _context.SaveChangesAsync();
+                        category = await _context.Categories.FirstOrDefaultAsync(c => c.Name.Equals(product.Category));
+                    }
 
                     oProduct.Name = product.Name;
                     oProduct.Category = category;
@@ -135,9 +152,30 @@ namespace MiniStore.Controllers
             }
             catch
             {
-                return NoContent();
+                return BadRequest();
             }
         }
+
+        [EnableCors("Default")]
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteProduct(string id)
+        {
+            try
+            {
+                var product = await _context.Products.FirstOrDefaultAsync(p => p.Id.Equals(id));
+                if (product == null) return NotFound();
+
+                _context.Products.Remove(product);
+                await _context.SaveChangesAsync();
+                return Ok(new { Message = "Deleted product id" });
+            }
+            catch (Exception ex)
+            {
+                return BadRequest(new { Error = ex.Message });
+            }
+        }
+
+
 
         private bool CheckExist(string id)
         {
