@@ -1,13 +1,10 @@
 ﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.DotNet.Scaffolding.Shared.Messaging;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Context;
 using MiniStore.Models;
-using Newtonsoft.Json;
 
-namespace MiniStore.Controllers
+namespace MiniStoreRepository.Controllers
 {
     [Route("api/product")]
     [ApiController]
@@ -139,7 +136,7 @@ namespace MiniStore.Controllers
                     }
 
                     oProduct.Name = product.Name;
-                    oProduct.Category = category;
+                    oProduct.Category = category!;
                     oProduct.Description = product.Description;
                     oProduct.ImageUrl = product.ImageUrl;
                     oProduct.Price = product.Price;

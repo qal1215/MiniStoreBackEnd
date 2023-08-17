@@ -1,13 +1,12 @@
 ﻿using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Context;
 using MiniStore.Models;
 
-namespace MiniStore.Controllers
+namespace MiniStoreRepository.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/category")]
     [ApiController]
     public class CategoriesController : ControllerBase
     {

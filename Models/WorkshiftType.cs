@@ -3,17 +3,16 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MiniStore.Models
 {
-    public class Category
+    public class WorkshiftType
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string Name { get; set; } = null!;
-    }
+        public required string Name { get; set; }
 
-    public class CreatingCategory
-    {
-        public string Name { get; set; } = null!;
+        public int PositionId { get; set; }
+
+        public Position Position { get; set; }
     }
 }

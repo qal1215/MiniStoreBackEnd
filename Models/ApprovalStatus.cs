@@ -3,17 +3,12 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace MiniStore.Models
 {
-    public class Category
+    public class ApprovalStatus
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
         public int Id { get; set; }
 
-        public string Name { get; set; } = null!;
-    }
-
-    public class CreatingCategory
-    {
-        public string Name { get; set; } = null!;
+        public string Status { get; set; } = null!;
     }
 }

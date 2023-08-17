@@ -4,30 +4,30 @@ using Microsoft.EntityFrameworkCore;
 using MiniStore.Context;
 using MiniStore.Models;
 
-namespace MiniStore.Controllers
+namespace MiniStoreRepository.Controllers
 {
-    [Route("api/account")]
+    [Route("api/employee")]
     [ApiController]
-    public class AccountsController : ControllerBase
+    public class EmployeesController : ControllerBase
     {
         private readonly MiniStoreContext _context;
 
-        public AccountsController(MiniStoreContext context)
+        public EmployeesController(MiniStoreContext context)
         {
             _context = context;
         }
 
         [EnableCors("Default")]
         [HttpPost("login")]
-        public async Task<ActionResult<ViewAccount>> Login(LoginRecord login)
+        public async Task<ActionResult<ViewEmployee>> Login(LoginRecord login)
         {
-            var result = await _context.Accounts
+            var result = await _context.Employees
                 .Where(a => a.Email.Equals(login.Email) && a.Password.Equals(login.Password) && a.IsActive == true)
-                .Select(a => new ViewAccount
+                .Select(a => new ViewEmployee
                 {
                     Id = a.Id,
                     Email = a.Email,
-                    Role = a.Role.Name,
+                    Position = a.Position.Name,
                     CreateDate = a.CreateDate,
                     ImgUrl = a.ImgUrl,
                     IsActive = a.IsActive
@@ -39,45 +39,45 @@ namespace MiniStore.Controllers
 
         [EnableCors("Default")]
         [HttpPost("register")]
-        public async Task<IActionResult> CreateAsync(RegisterRecord account)
+        public async Task<IActionResult> CreateAsync(RegisterRecord Employee)
         {
-            if (account is null) return BadRequest(new { Message = "Please give correct json!" });
+            if (Employee is null) return BadRequest(new { Message = "Please give correct json!" });
 
-            bool isExist = AccountExists(account.Email, account.Id);
-            if (isExist) return BadRequest(new { Message = "Account is existed." });
+            bool isExist = EmployeeExists(Employee.Email, Employee.Id);
+            if (isExist) return BadRequest(new { Message = "Employee is existed." });
 
-            Role? role = _context.Roles.Where(r => r.Name.Equals(account.RoleName)).FirstOrDefault();
-            if (role is null) return NotFound(new { Message = "RoleId invalid!" });
+            Position? Position = _context.Positions.Where(r => r.Name.Equals(Employee.RoleName)).FirstOrDefault();
+            if (Position is null) return NotFound(new { Message = "PositionId invalid!" });
 
-            var accountMap = new Account
+            var EmployeeMap = new Employee
             {
-                Id = account.Id,
+                Id = Employee.Id,
                 CreateDate = DateTime.Now,
-                Email = account.Email,
-                FullName = account.FullName,
-                ImgUrl = account.ImgUrl,
+                Email = Employee.Email,
+                FullName = Employee.FullName,
+                ImgUrl = Employee.ImgUrl,
                 IsActive = true,
-                Password = account.Password,
-                Role = role,
+                Password = Employee.Password,
+                Position = Position,
             };
 
-            await _context.Accounts.AddAsync(accountMap);
+            await _context.Employees.AddAsync(EmployeeMap);
             await _context.SaveChangesAsync();
             return Ok();
         }
 
         [EnableCors("Default")]
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<ViewAccount>>> GetAllEmployees()
+        public async Task<ActionResult<IEnumerable<ViewEmployee>>> GetAllEmployees()
         {
-            var result = await _context.Accounts
-                .Where(a => !a.Role.RoleId.Equals(1))
-                .Select(a => new ViewAccount
+            var result = await _context.Employees
+                .Where(a => !a.Position.Id.Equals(1))
+                .Select(a => new ViewEmployee
                 {
                     Id = a.Id,
                     Email = a.Email,
                     FullName = a.FullName,
-                    Role = a.Role.Name,
+                    Position = a.Position.Name,
                     CreateDate = a.CreateDate,
                     ImgUrl = a.ImgUrl,
                     IsActive = a.IsActive
@@ -89,54 +89,54 @@ namespace MiniStore.Controllers
 
         [EnableCors("Default")]
         [HttpGet("{id}")]
-        public async Task<ActionResult<ViewAccount>> GetAccountById(string id)
+        public async Task<ActionResult<ViewEmployee>> GetEmployeeById(string id)
         {
-            var result = await _context.Accounts
+            var result = await _context.Employees
                 .Where(a => a.Id.Equals(id))
-                .Select(a => new ViewAccount
+                .Select(a => new ViewEmployee
                 {
                     Id = a.Id,
                     Email = a.Email,
                     FullName = a.FullName,
                     Password = a.Password,
-                    Role = a.Role.Name,
+                    Position = a.Position.Name,
                     CreateDate = a.CreateDate,
                     ImgUrl = a.ImgUrl,
                     IsActive = a.IsActive
                 }).FirstOrDefaultAsync();
 
-            if (result is null) return NotFound(new { Message = "Not found account" });
+            if (result is null) return NotFound(new { Message = "Not found Employee" });
             return Ok(result!);
         }
 
 
         [EnableCors("Default")]
         [HttpPut("{id}")]
-        public async Task<ActionResult<ViewAccount>> UpdateAccount(string id, UpdateRecord update)
+        public async Task<ActionResult<ViewEmployee>> UpdateEmployee(string id, UpdateRecord update)
         {
-            if (update is null) return BadRequest(new { Message = "Please give correct account" });
-            if (!id.Equals(update.Id)) return BadRequest(new { Message = "Please give correct account" });
+            if (update is null) return BadRequest(new { Message = "Please give correct Employee" });
+            if (!id.Equals(update.Id)) return BadRequest(new { Message = "Please give correct Employee" });
 
-            var result = await _context.Accounts
+            var result = await _context.Employees
                     .Where(a => a.Id == update.Id)
                     .FirstOrDefaultAsync();
 
             if (result is null) return BadRequest(new { Message = "Invalid update!" });
 
-            Role? role = _context.Roles.Where(r => r.Name.Equals(update.RoleName)).FirstOrDefault();
-            if (role is null) return NotFound(new { Message = "RoleId invalid!" });
+            Position? Position = _context.Positions.Where(r => r.Name.Equals(update.RoleName)).FirstOrDefault();
+            if (Position is null) return NotFound(new { Message = "PositionId invalid!" });
 
 
             try
             {
                 result.IsActive = update.IsActive;
                 result.Email = update.Email;
-                result.Role = role;
+                result.Position = Position;
                 result.FullName = update.FullName;
                 result.ImgUrl = update.ImgUrl;
                 result.Password = update.Password;
 
-                _context.Accounts.Update(result);
+                _context.Employees.Update(result);
                 await _context.SaveChangesAsync();
                 return Ok(result);
             }
@@ -148,14 +148,14 @@ namespace MiniStore.Controllers
 
         [EnableCors("Default")]
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteAccount(string id)
+        public async Task<IActionResult> DeleteEmployee(string id)
         {
             try
             {
-                var account = await _context.Accounts.FirstOrDefaultAsync(a => a.Id.Equals(id));
-                if (account == null) return NotFound();
+                var Employee = await _context.Employees.FirstOrDefaultAsync(a => a.Id.Equals(id));
+                if (Employee == null) return NotFound();
 
-                _context.Accounts.Remove(account);
+                _context.Employees.Remove(Employee);
                 await _context.SaveChangesAsync();
 
                 return Ok();
@@ -168,9 +168,9 @@ namespace MiniStore.Controllers
 
 
 
-        private bool AccountExists(string email, string id)
+        private bool EmployeeExists(string email, string id)
         {
-            return (_context.Accounts?.Any(e => e.Email == email || e.Id == id)).GetValueOrDefault();
+            return (_context.Employees?.Any(e => e.Email == email || e.Id == id)).GetValueOrDefault();
         }
     }
 }

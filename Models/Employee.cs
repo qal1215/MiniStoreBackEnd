@@ -1,13 +1,13 @@
-﻿using System.ComponentModel;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 
 namespace MiniStore.Models
 {
-    public class Account
+    public class Employee
     {
         [Key]
         public string Id { get; set; } = null!;
 
+        [EmailAddress]
         public string Email { get; set; } = null!;
 
         public string FullName { get; set; } = null!;
@@ -16,22 +16,23 @@ namespace MiniStore.Models
 
         public bool IsActive { get; set; } = true;
 
+        [Url]
         public string? ImgUrl { get; set; }
 
         public DateTime CreateDate { get; set; }
 
-        public Role Role { get; set; } = null!;
+        public Position Position { get; set; } = null!;
     }
 
-    public class Role
+    public class Position
     {
         [Key]
-        public int RoleId { get; set; }
+        public int Id { get; set; }
 
         public string Name { get; set; } = null!;
     }
 
-    public record ViewAccount
+    public record ViewEmployee
     {
         public string Id { get; set; } = null!;
 
@@ -45,7 +46,7 @@ namespace MiniStore.Models
 
         public string? ImgUrl { get; set; }
 
-        public string Role { get; set; } = null!;
+        public string Position { get; set; } = null!;
 
         public DateTime CreateDate { get; set; }
     }
@@ -71,7 +72,7 @@ namespace MiniStore.Models
         [Url]
         public string? ImgUrl { get; set; }
 
-        public string RoleName { get; set; }
+        public string RoleName { get; set; } = null!;
     }
 
     public record UpdateRecord
@@ -88,7 +89,7 @@ namespace MiniStore.Models
         [Url]
         public string? ImgUrl { get; set; }
 
-        public string RoleName { get; set; }
+        public string? RoleName { get; set; }
 
         public bool IsActive { get; set; }
     }

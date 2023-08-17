@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniStore.Context;
 
@@ -11,9 +12,11 @@ using MiniStore.Context;
 namespace MiniStore.Migrations
 {
     [DbContext(typeof(MiniStoreContext))]
-    partial class MiniStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230816030533_InitDb")]
+    partial class InitDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,23 +40,6 @@ namespace MiniStore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("ApprovalStatuses");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Status = "Pending"
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Status = "Approve"
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Status = "Reject"
-                        });
                 });
 
             modelBuilder.Entity("MiniStore.Models.Category", b =>
@@ -181,7 +167,7 @@ namespace MiniStore.Migrations
 
             modelBuilder.Entity("MiniStore.Models.Payslip", b =>
                 {
-                    b.Property<string>("PayslipId")
+                    b.Property<string>("SalaryCalculationId")
                         .HasColumnType("nvarchar(450)");
 
                     b.Property<decimal>("BaseSalary")
@@ -190,8 +176,8 @@ namespace MiniStore.Migrations
                     b.Property<decimal>("Bonuses")
                         .HasColumnType("decimal(18,2)");
 
-                    b.Property<decimal>("Deductions")
-                        .HasColumnType("decimal(18,2)");
+                    b.Property<double>("CoefficientsSalary")
+                        .HasColumnType("float");
 
                     b.Property<string>("EmployeeId")
                         .IsRequired()
@@ -200,17 +186,17 @@ namespace MiniStore.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<string>("Month")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<DateTime>("StartDay")
                         .HasColumnType("datetime2");
 
                     b.Property<decimal>("TotalSalary")
                         .HasColumnType("decimal(18,2)");
 
-                    b.HasKey("PayslipId");
+                    b.Property<string>("TypeName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("SalaryCalculationId");
 
                     b.HasIndex("EmployeeId");
 
@@ -288,10 +274,13 @@ namespace MiniStore.Migrations
                     b.ToTable("Status");
                 });
 
-            modelBuilder.Entity("MiniStore.Models.WorkShift", b =>
+            modelBuilder.Entity("MiniStore.Models.WorkSheet", b =>
                 {
-                    b.Property<string>("Id")
-                        .HasColumnType("nvarchar(450)");
+                    b.Property<long>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("bigint");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<long>("Id"));
 
                     b.Property<int>("ApprovalStatusId")
                         .HasColumnType("int");
@@ -302,9 +291,6 @@ namespace MiniStore.Migrations
                     b.Property<DateTime>("CheckoutTime")
                         .HasColumnType("datetime2");
 
-                    b.Property<decimal>("CoefficientsSalary")
-                        .HasColumnType("decimal(18,2)");
-
                     b.Property<string>("EmployeeId")
                         .IsRequired()
                         .HasColumnType("nvarchar(450)");
@@ -312,19 +298,10 @@ namespace MiniStore.Migrations
                     b.Property<DateTime>("EndDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsHoliday")
-                        .HasColumnType("bit");
-
-                    b.Property<bool>("IsSunday")
-                        .HasColumnType("bit");
-
-                    b.Property<string>("PayslipId")
-                        .HasColumnType("nvarchar(450)");
-
                     b.Property<DateTime>("StartDate")
                         .HasColumnType("datetime2");
 
-                    b.Property<int>("WorkshiftTypeId")
+                    b.Property<int>("WorksheetTypeId")
                         .HasColumnType("int");
 
                     b.HasKey("Id");
@@ -333,14 +310,12 @@ namespace MiniStore.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.HasIndex("PayslipId");
+                    b.HasIndex("WorksheetTypeId");
 
-                    b.HasIndex("WorkshiftTypeId");
-
-                    b.ToTable("WorkShifts");
+                    b.ToTable("WorkSheets");
                 });
 
-            modelBuilder.Entity("MiniStore.Models.WorkshiftType", b =>
+            modelBuilder.Entity("MiniStore.Models.WorksheetType", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -348,50 +323,22 @@ namespace MiniStore.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
+                    b.Property<double>("CoefficientsSalary")
+                        .HasColumnType("float");
+
+                    b.Property<bool>("IsHoliday")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSunday")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PositionId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
 
-                    b.HasIndex("PositionId");
-
-                    b.ToTable("WorkshiftsType");
-
-                    b.HasData(
-                        new
-                        {
-                            Id = 1,
-                            Name = "saler-shift-1",
-                            PositionId = 3
-                        },
-                        new
-                        {
-                            Id = 2,
-                            Name = "saler-shift-2",
-                            PositionId = 3
-                        },
-                        new
-                        {
-                            Id = 3,
-                            Name = "saler-shift-3",
-                            PositionId = 3
-                        },
-                        new
-                        {
-                            Id = 4,
-                            Name = "guard-shift-1",
-                            PositionId = 2
-                        },
-                        new
-                        {
-                            Id = 5,
-                            Name = "guard-shift-2",
-                            PositionId = 2
-                        });
+                    b.ToTable("WorksheetsType");
                 });
 
             modelBuilder.Entity("MiniStore.Models.Employee", b =>
@@ -463,7 +410,7 @@ namespace MiniStore.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("MiniStore.Models.WorkShift", b =>
+            modelBuilder.Entity("MiniStore.Models.WorkSheet", b =>
                 {
                     b.HasOne("MiniStore.Models.ApprovalStatus", "ApprovalStatus")
                         .WithMany()
@@ -477,13 +424,9 @@ namespace MiniStore.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("MiniStore.Models.Payslip", null)
-                        .WithMany("WorkShifts")
-                        .HasForeignKey("PayslipId");
-
-                    b.HasOne("MiniStore.Models.WorkshiftType", "WorkshiftType")
+                    b.HasOne("MiniStore.Models.WorksheetType", "WorksheetType")
                         .WithMany()
-                        .HasForeignKey("WorkshiftTypeId")
+                        .HasForeignKey("WorksheetTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
@@ -491,28 +434,12 @@ namespace MiniStore.Migrations
 
                     b.Navigation("Employee");
 
-                    b.Navigation("WorkshiftType");
-                });
-
-            modelBuilder.Entity("MiniStore.Models.WorkshiftType", b =>
-                {
-                    b.HasOne("MiniStore.Models.Position", "Position")
-                        .WithMany()
-                        .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Position");
+                    b.Navigation("WorksheetType");
                 });
 
             modelBuilder.Entity("MiniStore.Models.Order", b =>
                 {
                     b.Navigation("OrderDetails");
-                });
-
-            modelBuilder.Entity("MiniStore.Models.Payslip", b =>
-                {
-                    b.Navigation("WorkShifts");
                 });
 #pragma warning restore 612, 618
         }

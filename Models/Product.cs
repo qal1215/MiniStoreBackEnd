@@ -7,17 +7,17 @@ namespace MiniStore.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
 
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public decimal Price { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; set; } = null!;
 
-        public string Unit { get; set; }
+        public string Unit { get; set; } = null!;
 
         public uint Stock { get; set; }
 
@@ -26,38 +26,38 @@ namespace MiniStore.Models
 
     public record CreateProduct
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
 
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public decimal Price { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; set; } = null!;
 
-        public string Category { get; set; }
+        public string Category { get; set; } = null!;
 
-        public string Unit { get; set; }
+        public string Unit { get; set; } = null!;
 
         public uint Stock { get; set; }
     }
 
     public record ViewProduct
     {
-        public string Id { get; set; }
+        public string Id { get; set; } = null!;
 
-        public string Name { get; set; }
+        public string Name { get; set; } = null!;
 
-        public string Description { get; set; }
+        public string? Description { get; set; }
 
         public decimal Price { get; set; }
 
-        public string ImageUrl { get; set; }
+        public string ImageUrl { get; set; } = null!;
 
-        public string Category { get; set; }
+        public string Category { get; set; } = null!;
 
-        public string Unit { get; set; }
+        public string Unit { get; set; } = null!;
 
         public uint Stock { get; set; }
     }

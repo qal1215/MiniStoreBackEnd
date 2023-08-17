@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniStore.Context;
 
@@ -11,9 +12,11 @@ using MiniStore.Context;
 namespace MiniStore.Migrations
 {
     [DbContext(typeof(MiniStoreContext))]
-    partial class MiniStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230816165558_AddApprovalStatus")]
+    partial class AddApprovalStatus
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -352,12 +355,7 @@ namespace MiniStore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("PositionId")
-                        .HasColumnType("int");
-
                     b.HasKey("Id");
-
-                    b.HasIndex("PositionId");
 
                     b.ToTable("WorkshiftsType");
 
@@ -365,32 +363,27 @@ namespace MiniStore.Migrations
                         new
                         {
                             Id = 1,
-                            Name = "saler-shift-1",
-                            PositionId = 3
+                            Name = "saler-shift-1"
                         },
                         new
                         {
                             Id = 2,
-                            Name = "saler-shift-2",
-                            PositionId = 3
+                            Name = "saler-shift-2"
                         },
                         new
                         {
                             Id = 3,
-                            Name = "saler-shift-3",
-                            PositionId = 3
+                            Name = "saler-shift-3"
                         },
                         new
                         {
                             Id = 4,
-                            Name = "guard-shift-1",
-                            PositionId = 2
+                            Name = "guard-shift-1"
                         },
                         new
                         {
                             Id = 5,
-                            Name = "guard-shift-2",
-                            PositionId = 2
+                            Name = "guard-shift-2"
                         });
                 });
 
@@ -492,17 +485,6 @@ namespace MiniStore.Migrations
                     b.Navigation("Employee");
 
                     b.Navigation("WorkshiftType");
-                });
-
-            modelBuilder.Entity("MiniStore.Models.WorkshiftType", b =>
-                {
-                    b.HasOne("MiniStore.Models.Position", "Position")
-                        .WithMany()
-                        .HasForeignKey("PositionId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Position");
                 });
 
             modelBuilder.Entity("MiniStore.Models.Order", b =>
