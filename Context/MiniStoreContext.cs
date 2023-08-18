@@ -25,6 +25,8 @@ namespace MiniStore.Context
 
         public DbSet<ApprovalStatus> ApprovalStatuses { get; set; }
 
+        public DbSet<CheckinCheckout> CheckinCheckouts { get; set; }
+
         protected MiniStoreContext()
         {
         }

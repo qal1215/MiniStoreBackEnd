@@ -11,10 +11,6 @@ namespace MiniStore.Models
 
         public DateTime EndDate { get; set; }
 
-        public DateTime CheckinTime { get; set; }
-
-        public DateTime CheckoutTime { get; set; }
-
         public string EmployeeId { get; set; } = null!;
 
         public int WorkshiftTypeId { get; set; }
@@ -25,7 +21,7 @@ namespace MiniStore.Models
 
         public bool IsSunday { get; set; }
 
-        public decimal CoefficientsSalary { get; set; }
+        public decimal CoefficientsSalary { get; set; } = 1;
 
         public Employee Employee { get; set; }
 

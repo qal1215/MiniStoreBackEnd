@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using MiniStore.Context;
 using MiniStore.Models;
 using MiniStore.ViewModels;
@@ -51,8 +52,8 @@ namespace MiniStore.Controllers
         }
 
         [EnableCors("Default")]
-        [HttpGet("")]
-        public async Task<ActionResult<WorkShift>> ShowRegisterWorkshifts(string employeeId, DateOnly startDate, DateOnly endDate)
+        [HttpGet("{employeeId}")]
+        public async Task<ActionResult<WorkShift>> ShowWorkshiftsByEmployeeId(string employeeId, DateOnly startDate, DateOnly endDate)
         {
             var registerWorkshift = await _context.WorkShifts
                 .Where(ws => ws.EmployeeId.Equals(employeeId))
@@ -62,7 +63,22 @@ namespace MiniStore.Controllers
             return Ok(registerWorkshift);
         }
 
-        //[EnableCors("Default")]
-        //[]
+        [EnableCors("Default")]
+        [HttpGet("")]
+        public async Task<ActionResult<IEnumerable<WorkShift>>> ShowAllWorkshifts(DateOnly startDate, DateOnly endDate)
+        {
+            var allWorkshifts = await _context.WorkShifts
+                .Where(ws => ws.StartDate.DayOfYear >= startDate.DayOfYear && ws.EndDate.DayOfYear <= endDate.DayOfYear)
+                .ToListAsync();
+
+            allWorkshifts.ForEach(ws =>
+            {
+                ws.Employee = _context.Employees.FirstOrDefault(emp => emp.Id.Equals(ws.EmployeeId))!;
+            });
+
+            if (allWorkshifts.IsNullOrEmpty()) return NoContent();
+
+            return Ok(allWorkshifts);
+        }
     }
 }
