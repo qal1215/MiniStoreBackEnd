@@ -21,7 +21,7 @@ namespace MiniStoreRepository.Controllers
         [EnableCors("default")]
         public async Task<ActionResult<IEnumerable<Category>>> GetAllCategories()
         {
-            var categories = await _context.Categories.ToListAsync();
+            var categories = await _context.Categories.ToArrayAsync();
             if (categories == null) return NoContent();
             return Ok(categories);
         }
