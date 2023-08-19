@@ -37,7 +37,7 @@ namespace MiniStore.Controllers
         public async Task<IActionResult> CreateVoucher([FromForm] VoucherCreate voucher)
         {
             var product = await _context.Products.FirstOrDefaultAsync(c => c.Id == voucher.ProductId);
-            if (product == null) return BadRequest("This product is not existed before");
+            if (product == null) return BadRequest(new { Message = "This product is not existed before" });
             Voucher voucherToCreate = new Voucher
             {
                 ProductId = voucher.ProductId,
@@ -49,7 +49,20 @@ namespace MiniStore.Controllers
                 Status = voucher.Status,
                 RemainingProducts = voucher.RemainingProducts
             };
-            return Ok(voucherToCreate);
+            await _context.Vouchers.AddAsync(voucherToCreate);
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = "Voucher created successfully" });
+        }
+        [HttpPut("endVoucher")]
+        [EnableCors("default")]
+        public async Task<IActionResult> EndVoucherManually(int voucherId) //quan ly muon end voucher som hon du tinh, khong can biet con` hang` hay k
+        {
+            var voucher = await _context.Vouchers.FirstOrDefaultAsync(c => c.Id == voucherId);
+            if (voucher == null) return BadRequest(new {Message = "Voucher is not existed"});
+            voucher.ActualEndTime = DateTime.Now;
+            await _context.SaveChangesAsync();
+            string announce = String.Format("Finish voucher success");
+            return Ok(new {Message = announce});
         }
     }
 }
