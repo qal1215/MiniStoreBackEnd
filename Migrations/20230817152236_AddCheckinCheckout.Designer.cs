@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniStore.Context;
 
@@ -11,9 +12,11 @@ using MiniStore.Context;
 namespace MiniStore.Migrations
 {
     [DbContext(typeof(MiniStoreContext))]
-    partial class MiniStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230817152236_AddCheckinCheckout")]
+    partial class AddCheckinCheckout
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -71,37 +74,6 @@ namespace MiniStore.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Categories");
-                });
-
-            modelBuilder.Entity("MiniStore.Models.CheckinCheckout", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime>("CheckinTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CheckoutTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ImageCheckin")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("ImageCheckout")
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("WorkShiftId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("WorkShiftId");
-
-                    b.ToTable("CheckinCheckouts");
                 });
 
             modelBuilder.Entity("MiniStore.Models.Employee", b =>
@@ -319,47 +291,6 @@ namespace MiniStore.Migrations
                     b.ToTable("Status");
                 });
 
-            modelBuilder.Entity("MiniStore.Models.Voucher", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
-
-                    b.Property<DateTime?>("ActualEndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("CreateTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<decimal>("DiscountAmount")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<DateTime>("ExpectedEndTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("ProductId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(450)");
-
-                    b.Property<int>("RemainingProducts")
-                        .HasColumnType("int");
-
-                    b.Property<DateTime>("StartTime")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Status")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ProductId");
-
-                    b.ToTable("Vouchers");
-                });
-
             modelBuilder.Entity("MiniStore.Models.WorkShift", b =>
                 {
                     b.Property<string>("Id")
@@ -460,17 +391,6 @@ namespace MiniStore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MiniStore.Models.CheckinCheckout", b =>
-                {
-                    b.HasOne("MiniStore.Models.WorkShift", "WorkShift")
-                        .WithMany()
-                        .HasForeignKey("WorkShiftId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("WorkShift");
-                });
-
             modelBuilder.Entity("MiniStore.Models.Employee", b =>
                 {
                     b.HasOne("MiniStore.Models.Position", "Position")
@@ -538,17 +458,6 @@ namespace MiniStore.Migrations
                         .IsRequired();
 
                     b.Navigation("Category");
-                });
-
-            modelBuilder.Entity("MiniStore.Models.Voucher", b =>
-                {
-                    b.HasOne("MiniStore.Models.Product", "Product")
-                        .WithMany()
-                        .HasForeignKey("ProductId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Product");
                 });
 
             modelBuilder.Entity("MiniStore.Models.WorkShift", b =>
