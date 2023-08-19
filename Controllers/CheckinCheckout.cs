@@ -60,7 +60,7 @@ namespace MiniStore.Controllers
 
             _context.CheckinCheckouts.Update(checkout);
             await _context.SaveChangesAsync();
-            return Ok();
+            return Ok(new Ơ { });
         }
 
         public class ViewCheckin
