@@ -18,7 +18,7 @@ namespace MiniStore.Controllers
             _context = context;
         }
 
-        [HttpGet()]
+        [HttpGet("")]
         public async Task<ActionResult<IEnumerable<ViewOrder>>> GetAllOrder()
         {
             var result = await _context.Orders

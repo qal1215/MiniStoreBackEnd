@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Context;
+using MiniStore.ViewModels;
 
 namespace MiniStore.Controllers
 {
@@ -56,22 +57,11 @@ namespace MiniStore.Controllers
             if (checkout == null) return BadRequest(new { Message = "Please check-in first!" });
 
             checkout.CheckoutTime = checkin.DateTime;
-            checkout.ImageCheckout = checkin.ImageData!;
+            checkout.ImageCheckout = checkin.ImageData;
 
             _context.CheckinCheckouts.Update(checkout);
             await _context.SaveChangesAsync();
             return Ok(new { Message = "Checkout successfully" });
-        }
-
-        public class ViewCheckin
-        {
-            public string? EmployeeId { get; set; }
-
-            public DateTime DateTime { get; set; }
-
-            public string? ImageData { get; set; }
-
-            public string? WorkshiftId { get; set; }
         }
     }
 }

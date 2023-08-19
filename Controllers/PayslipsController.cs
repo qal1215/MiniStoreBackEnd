@@ -1,21 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Cors;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Tokens;
 using MiniStore.Context;
 using MiniStore.Models;
 using MiniStore.Utility;
-using MiniStore.ViewModels;
-using NuGet.Protocol.Plugins;
 
 namespace MiniStore.Controllers
 {
-    [Route("api/[controller]")]
+    [Route("api/payslips")]
     [ApiController]
     public class PayslipsController : ControllerBase
     {
@@ -54,7 +46,6 @@ namespace MiniStore.Controllers
         // GET: api/Payslips/5
         [HttpGet("{id}")]
         [EnableCors("default")]
-
         public async Task<ActionResult<ViewPayslip>> GetPayslip(string id)
         {
             var result = await _context.Payslips
@@ -71,7 +62,7 @@ namespace MiniStore.Controllers
                       StartDay = o.StartDay,
                       EndDate = o.EndDate,
                   })
-                  
+
                   .ToListAsync();
 
             if (result == null) return NoContent();
@@ -96,7 +87,6 @@ namespace MiniStore.Controllers
             if (result is null) return BadRequest(new { Message = "Invalid update!" });
 
 
-
             try
             {
                 result.BaseSalary = update.BaseSalary;
@@ -105,7 +95,6 @@ namespace MiniStore.Controllers
                 result.TotalSalary = update.BaseSalary - update.Deductions + update.Bonuses;
                 result.StartDay = update.StartDay;
                 result.EndDate = update.EndDate;
-
                 _context.Payslips.Update(result);
                 await _context.SaveChangesAsync();
                 return Ok(result);
@@ -123,31 +112,30 @@ namespace MiniStore.Controllers
 
         public async Task<ActionResult<Payslip>> PostPayslip(Payslip payslip)
         {
-                Payslip model = new()
-                {
-                    PayslipId = Ultility.GenerateEightDigitId(),
-                    EmployeeId = payslip.EmployeeId,
-                    WorkShifts = payslip.WorkShifts,
-                    Month = payslip.Month,
-                    BaseSalary = payslip.BaseSalary,
-                    Deductions = payslip.Deductions,
-                    Bonuses =   payslip.Bonuses,
-                    TotalSalary = payslip.TotalSalary,
-                    StartDay = payslip.StartDay,
-                    EndDate = payslip.EndDate,
-                   
-                };
+            Payslip model = new()
+            {
+                PayslipId = Ultility.GenerateEightDigitId(),
+                EmployeeId = payslip.EmployeeId,
+                WorkShifts = payslip.WorkShifts,
+                Month = payslip.Month,
+                BaseSalary = payslip.BaseSalary,
+                Deductions = payslip.Deductions,
+                Bonuses = payslip.Bonuses,
+                TotalSalary = payslip.TotalSalary,
+                StartDay = payslip.StartDay,
+                EndDate = payslip.EndDate,
+
+            };
             _context.Payslips.Add(model);
 
 
             await _context.SaveChangesAsync();
-            return Ok(new { Message = "Created payslip successfully"});
+            return Ok(new { Message = "Created payslip successfully" });
         }
 
         // DELETE: api/Payslips/5
         [HttpDelete("{id}")]
         [EnableCors("default")]
-
         public async Task<IActionResult> DeletePayslip(string id)
         {
             if (_context.Payslips == null)

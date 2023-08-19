@@ -37,6 +37,41 @@ namespace MiniStore.Controllers
 
             foreach (WorkShift ws in workShifts)
             {
+                DateTime tmp = ws.StartDate;
+                DateTime tmp2 = ws.EndDate;
+
+                switch (ws.WorkshiftType.Name)
+                {
+                    case "saler-shift-1":
+
+                        ws.StartDate = new DateTime(tmp.Year, tmp.Month, tmp.Day, 6, 0, 0);
+                        ws.EndDate = new DateTime(tmp.Year, tmp.Month, tmp.Day, 12, 0, 0);
+                        break;
+                    case "saler-shift-2":
+                        ws.StartDate = new DateTime(tmp.Year, tmp.Month, tmp.Day, 12, 0, 0);
+                        ws.EndDate = new DateTime(tmp.Year, tmp.Month, tmp.Day, 18, 0, 0);
+                        break;
+                    case "saler-shift-3":
+                        ws.StartDate = new DateTime(tmp.Year, tmp.Month, tmp.Day, 18, 0, 0);
+                        tmp2 = tmp2.AddDays(1);
+                        ws.EndDate = new DateTime(tmp2.Year, tmp2.Month, tmp2.Day, 6, 0, 0);
+                        break;
+                    case "guard-shift-1":
+                        ws.StartDate = new DateTime(tmp.Year, tmp.Month, tmp.Day, 6, 0, 0);
+                        ws.EndDate = new DateTime(tmp.Year, tmp.Month, tmp.Day, 18, 0, 0);
+                        break;
+                    case "guard-shift-2":
+                        ws.StartDate = new DateTime(tmp.Year, tmp.Month, tmp.Day, 18, 0, 0);
+                        tmp2 = tmp2.AddDays(1);
+                        ws.EndDate = new DateTime(tmp2.Year, tmp2.Month, tmp2.Day, 6, 0, 0);
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            foreach (WorkShift ws in workShifts)
+            {
                 bool check = _context.WorkShifts
                 .Where(ws1 => ws1.EmployeeId.Equals(ws.EmployeeId))
                 .Any(ws1 => ws1.StartDate.DayOfYear.Equals(ws.StartDate.DayOfYear) && ws1.WorkshiftTypeId.Equals(ws.WorkshiftType.Id));
