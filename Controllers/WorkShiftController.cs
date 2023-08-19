@@ -80,5 +80,26 @@ namespace MiniStore.Controllers
 
             return Ok(allWorkshifts);
         }
+
+        [EnableCors("Default")]
+        [HttpPut("confirm")]
+        public async Task<IActionResult> ConfirmWorkshift(ViewConfirmWorkshift confirm)
+        {
+            if (confirm is not ViewConfirmWorkshift) return BadRequest(new { Message = "Please give correct format" });
+
+            var workshift = await _context.WorkShifts
+                .Where(ws => ws.Id.Equals(confirm.WorkshiftId))
+                .Where(ws => ws.EmployeeId.Equals(confirm.EmployeeId))
+                .FirstOrDefaultAsync();
+
+            if (workshift == null) return NotFound();
+
+            workshift.ApprovalStatusId = (confirm.IsConfirm) ? 2 : 3; //Id 2 is approve and 3 is reject
+
+            _context.Update(workshift);
+            await _context.SaveChangesAsync();
+            return Ok(workshift);
+        }
+
     }
 }

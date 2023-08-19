@@ -15,4 +15,13 @@
 
         public required List<ViewWorkshift> Workshifts { get; set; }
     }
+
+    public class ViewConfirmWorkshift
+    {
+        public string EmployeeId { get; set; } = null!;
+
+        public string WorkshiftId { get; set; } = null!;
+
+        public bool IsConfirm { get; set; }
+    }
 }
