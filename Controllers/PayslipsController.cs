@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using MiniStore.Context;
 using MiniStore.Models;
 using MiniStore.Utility;
+using MiniStore.ViewModels;
 
 namespace MiniStore.Controllers
 {
@@ -34,7 +35,7 @@ namespace MiniStore.Controllers
                       Bonuses = o.Bonuses,
                       TotalSalary = o.TotalSalary,
                       StartDay = o.StartDay,
-                      EndDate = o.EndDate,
+                      EndDate = o.EndDay,
                   })
                   .ToListAsync();
 
@@ -60,7 +61,7 @@ namespace MiniStore.Controllers
                       Bonuses = o.Bonuses,
                       TotalSalary = o.TotalSalary,
                       StartDay = o.StartDay,
-                      EndDate = o.EndDate,
+                      EndDate = o.EndDay,
                   })
 
                   .ToListAsync();
@@ -94,7 +95,7 @@ namespace MiniStore.Controllers
                 result.Bonuses = update.Bonuses;
                 result.TotalSalary = update.BaseSalary - update.Deductions + update.Bonuses;
                 result.StartDay = update.StartDay;
-                result.EndDate = update.EndDate;
+                result.EndDay = update.EndDate;
                 _context.Payslips.Update(result);
                 await _context.SaveChangesAsync();
                 return Ok(result);
@@ -118,12 +119,13 @@ namespace MiniStore.Controllers
                 EmployeeId = payslip.EmployeeId,
                 WorkShifts = payslip.WorkShifts,
                 Month = payslip.Month,
+                Year = 2023,
                 BaseSalary = payslip.BaseSalary,
                 Deductions = payslip.Deductions,
                 Bonuses = payslip.Bonuses,
                 TotalSalary = payslip.TotalSalary,
                 StartDay = payslip.StartDay,
-                EndDate = payslip.EndDate,
+                EndDay = payslip.EndDay,
 
             };
             _context.Payslips.Add(model);
@@ -152,11 +154,6 @@ namespace MiniStore.Controllers
             await _context.SaveChangesAsync();
 
             return NoContent();
-        }
-
-        private bool PayslipExists(string id)
-        {
-            return (_context.Payslips?.Any(e => e.PayslipId == id)).GetValueOrDefault();
         }
     }
 }

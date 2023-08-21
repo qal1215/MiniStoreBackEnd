@@ -58,6 +58,8 @@ namespace MiniStore.Controllers
             var totalItems = (uint)order.OrderDetails.Sum(od => od.Quantity);
             var totalAmong = order.OrderDetails.Sum(od => od.Quantity * od.UnitPrice);
 
+            //await _context.OrderDetails.AddRangeAsync(orderDetails);
+
             Order model = new()
             {
                 CreateDate = DateTime.Now,
@@ -66,11 +68,11 @@ namespace MiniStore.Controllers
                 TotalItems = totalItems,
                 TotalAmount = totalAmong,
                 OrderDetails = orderDetails,
-                StatusId = 1,
+                StatusId = 2, //statusId = 2 for done the order
                 SalerId = saler!.Id,
                 Saler = saler
             };
-            _context.Orders.Add(model);
+            await _context.Orders.AddAsync(model);
 
 
             await _context.SaveChangesAsync();

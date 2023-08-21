@@ -9,7 +9,9 @@ namespace MiniStore.Models
 
         public required string EmployeeId { get; set; }
 
-        public required string Month { get; set; }
+        public required int Month { get; set; }
+
+        public required int Year { get; set; }
 
         public decimal BaseSalary { get; set; }
 
@@ -18,53 +20,13 @@ namespace MiniStore.Models
         public decimal Bonuses { get; set; } = 0;
 
         public decimal TotalSalary { get; set; }
+
+        public DateTime StartDay { get; set; }
+
+        public DateTime EndDay { get; set; }
+
+        public Employee Employee { get; set; } = null!;
 
         public List<WorkShift>? WorkShifts { get; set; }
-
-        public DateTime StartDay { get; set; }
-
-        public DateTime EndDate { get; set; }
-
-        public Employee Employee { get; set; } = null!;
     }
-    public record UpdatePayslip
-    {
-        public string PayslipId { get; set; }
-
-
-        public decimal BaseSalary { get; set; }
-
-        public decimal Deductions { get; set; } = 0;
-
-        public decimal Bonuses { get; set; } = 0;
-
-        public decimal TotalSalary { get; set; }
-
-        public DateTime StartDay { get; set; }
-
-        public DateTime EndDate { get; set; }
-    }
-    public record ViewPayslip
-    {
-        public string PayslipId { get; set; }
-
-        public string EmployeeName { get; set; }
-
-        public string Month { get; set; }
-
-        public decimal BaseSalary { get; set; }
-
-        public decimal Deductions { get; set; } = 0;
-
-        public decimal Bonuses { get; set; } = 0;
-
-        public decimal TotalSalary { get; set; }
-
-        public DateTime StartDay { get; set; }
-
-        public DateTime EndDate { get; set; }
-        public Employee Employee { get; set; } = null!;
-
-    }
-
 }

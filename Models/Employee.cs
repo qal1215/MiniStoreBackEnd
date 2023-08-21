@@ -21,6 +21,8 @@ namespace MiniStore.Models
 
         public DateTime CreateDate { get; set; }
 
+        public int PositionId { get; set; }
+
         public Position Position { get; set; } = null!;
     }
 
