@@ -19,6 +19,8 @@ namespace MiniStore.Models
         [Url]
         public string? ImgUrl { get; set; }
 
+        public decimal BaseSalaryPerHour { get; set; } = 0;
+
         public DateTime CreateDate { get; set; }
 
         public int PositionId { get; set; }
