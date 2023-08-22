@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniStore.Context;
 
@@ -11,9 +12,11 @@ using MiniStore.Context;
 namespace MiniStore.Migrations
 {
     [DbContext(typeof(MiniStoreContext))]
-    partial class MiniStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230821150809_OrderStatus_SeedData")]
+    partial class OrderStatus_SeedData
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,6 +246,63 @@ namespace MiniStore.Migrations
                     b.HasIndex("PositionId");
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "67626576",
+                            BaseSalaryPerHour = 0m,
+                            CreateDate = new DateTime(2023, 8, 21, 22, 8, 8, 337, DateTimeKind.Local).AddTicks(5631),
+                            Email = "vana@gmail.com",
+                            FullName = "Nguyen Van A",
+                            IsActive = true,
+                            Password = "abc123456",
+                            PositionId = 1
+                        },
+                        new
+                        {
+                            Id = "58153496",
+                            BaseSalaryPerHour = 0m,
+                            CreateDate = new DateTime(2023, 8, 21, 22, 8, 8, 337, DateTimeKind.Local).AddTicks(5664),
+                            Email = "vanb@gmail.com",
+                            FullName = "Nguyen Van B",
+                            IsActive = true,
+                            Password = "123456",
+                            PositionId = 2
+                        },
+                        new
+                        {
+                            Id = "75257558",
+                            BaseSalaryPerHour = 0m,
+                            CreateDate = new DateTime(2023, 8, 21, 22, 8, 8, 337, DateTimeKind.Local).AddTicks(5682),
+                            Email = "vanc@gmail.com",
+                            FullName = "Pham Van C",
+                            IsActive = true,
+                            Password = "asd123456",
+                            PositionId = 3
+                        },
+                        new
+                        {
+                            Id = "71136320",
+                            BaseSalaryPerHour = 0m,
+                            CreateDate = new DateTime(2023, 8, 21, 22, 8, 8, 337, DateTimeKind.Local).AddTicks(5743),
+                            Email = "thid@gmail.com",
+                            FullName = "Le Thi D",
+                            IsActive = true,
+                            Password = "asd123456",
+                            PositionId = 3
+                        },
+                        new
+                        {
+                            Id = "94093771",
+                            BaseSalaryPerHour = 0m,
+                            CreateDate = new DateTime(2023, 8, 21, 22, 8, 8, 337, DateTimeKind.Local).AddTicks(5761),
+                            Email = "thin@gmail.com",
+                            FullName = "Nguyen Thi N",
+                            IsActive = true,
+                            Password = "asd123456",
+                            PositionId = 3
+                        });
                 });
 
             modelBuilder.Entity("MiniStore.Models.Order", b =>
@@ -376,12 +436,6 @@ namespace MiniStore.Migrations
 
                     b.Property<decimal>("TotalSalary")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("TotalWorkHours")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalWorkLate")
-                        .HasColumnType("int");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");
@@ -801,6 +855,9 @@ namespace MiniStore.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsHoliday")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSunday")
                         .HasColumnType("bit");
 
                     b.Property<string>("PayslipId")

@@ -10,6 +10,8 @@ namespace MiniStore.ViewModels
     {
         public required string EmployeeId { get; set; }
 
+        public decimal BaseSalaryPerHour { get; set; }
+
         public int Month { get; set; }
 
         public int Year { get; set; }
@@ -17,6 +19,19 @@ namespace MiniStore.ViewModels
         public DateTime StartDate { get; set; }
 
         public DateTime EndDate { get; set; }
+    }
+
+    public class DoneSalary
+    {
+        public string SalaryId { get; set; } = null!;
+
+        public decimal BaseSalary { get; set; }
+
+        public decimal Deductions { get; set; } = 0;
+
+        public decimal Bonuses { get; set; } = 0;
+
+        public decimal TotalSalary { get; set; }
     }
 
     public record UpdatePayslip

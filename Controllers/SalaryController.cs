@@ -39,6 +39,7 @@ namespace MiniStore.Controllers
             {
                 PayslipId = Ultility.GenerateEightDigitId(),
                 EmployeeId = request.EmployeeId,
+                BaseSalaryPerHour = request.BaseSalaryPerHour,
                 Month = request.Month,
                 Year = request.Year,
                 StartDay = request.StartDate,
@@ -67,6 +68,51 @@ namespace MiniStore.Controllers
             return Ok(payslip);
         }
 
+        [EnableCors("Default")]
+        [HttpPost("{salaryId}")]
+        public async Task<ActionResult<Payslip>> DoneSalary(string salaryId, DoneSalary request)
+        {
+            if (salaryId != request.SalaryId) return BadRequest(new { Message = "Fail on salaryId" });
+
+            var salary = await _context.Payslips
+                .Where(p => p.PayslipId.Equals(salaryId))
+                .FirstOrDefaultAsync();
+
+            if (salary == null) return BadRequest(new { Message = "Not found salary!" });
+
+            salary.BaseSalary = request.BaseSalary;
+            salary.Deductions = request.Deductions;
+            salary.Bonuses = request.Bonuses;
+            salary.TotalSalary = request.TotalSalary;
+
+            _context.Payslips.Update(salary);
+            await _context.SaveChangesAsync();
+            return Ok(salary);
+        }
+
+        [EnableCors("Default")]
+        [HttpGet()]
+        public async Task<ActionResult<IEnumerable<Payslip>>> GetAllPayslips()
+        {
+            var payslips = await _context.Payslips.ToListAsync();
+
+            if (payslips == null) return NoContent();
+
+            return Ok(payslips);
+        }
+
+        [EnableCors("Default")]
+        [HttpGet("{salaryId}")]
+        public async Task<ActionResult<Payslip>> GetPayslipById(string salaryId)
+        {
+            var salary = await _context.Payslips
+                .Where(p => p.PayslipId.Equals(salaryId))
+                .FirstOrDefaultAsync();
+
+            if (salary == null) return NoContent();
+
+            return Ok(salary);
+        }
 
     }
 }

@@ -55,6 +55,20 @@ namespace MiniStore.Controllers
                         ws.StartDate = new DateTime(tmp.Year, tmp.Month, tmp.Day, 18, 0, 0);
                         tmp2 = tmp2.AddDays(1);
                         ws.EndDate = new DateTime(tmp2.Year, tmp2.Month, tmp2.Day, 6, 0, 0);
+
+                        if (ws.StartDate.DayOfWeek == DayOfWeek.Sunday)
+                        {
+                            ws.CoefficientsSalary = 2;
+                        }
+                        else if (ws.IsHoliday)
+                        {
+                            ws.CoefficientsSalary = 3;
+                        }
+                        else
+                        {
+                            ws.CoefficientsSalary = (decimal)1.5;
+                        }
+
                         break;
                     case "guard-shift-1":
                         ws.StartDate = new DateTime(tmp.Year, tmp.Month, tmp.Day, 6, 0, 0);
@@ -64,6 +78,7 @@ namespace MiniStore.Controllers
                         ws.StartDate = new DateTime(tmp.Year, tmp.Month, tmp.Day, 18, 0, 0);
                         tmp2 = tmp2.AddDays(1);
                         ws.EndDate = new DateTime(tmp2.Year, tmp2.Month, tmp2.Day, 6, 0, 0);
+                        ws.CoefficientsSalary = (decimal)1.5;
                         break;
                     default:
                         break;

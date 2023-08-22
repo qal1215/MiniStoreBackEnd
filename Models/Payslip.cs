@@ -13,6 +13,8 @@ namespace MiniStore.Models
 
         public required int Year { get; set; }
 
+        public decimal BaseSalaryPerHour { get; set; } = 0;
+
         public decimal BaseSalary { get; set; }
 
         public decimal Deductions { get; set; } = 0;
@@ -20,6 +22,10 @@ namespace MiniStore.Models
         public decimal Bonuses { get; set; } = 0;
 
         public decimal TotalSalary { get; set; }
+
+        public int TotalWorkHours { get; set; } = 0;
+
+        public int TotalWorkLate { get; set; } = 0;
 
         public DateTime StartDay { get; set; }
 

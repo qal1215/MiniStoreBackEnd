@@ -19,8 +19,6 @@ namespace MiniStore.Models
 
         public bool IsHoliday { get; set; }
 
-        public bool IsSunday { get; set; }
-
         public decimal CoefficientsSalary { get; set; } = 1;
 
         public Employee Employee { get; set; }

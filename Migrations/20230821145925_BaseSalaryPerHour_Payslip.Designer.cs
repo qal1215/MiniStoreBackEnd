@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniStore.Context;
 
@@ -11,9 +12,11 @@ using MiniStore.Context;
 namespace MiniStore.Migrations
 {
     [DbContext(typeof(MiniStoreContext))]
-    partial class MiniStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230821145925_BaseSalaryPerHour_Payslip")]
+    partial class BaseSalaryPerHour_Payslip
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -243,6 +246,63 @@ namespace MiniStore.Migrations
                     b.HasIndex("PositionId");
 
                     b.ToTable("Employees");
+
+                    b.HasData(
+                        new
+                        {
+                            Id = "85725063",
+                            BaseSalaryPerHour = 0m,
+                            CreateDate = new DateTime(2023, 8, 21, 21, 59, 23, 890, DateTimeKind.Local).AddTicks(4567),
+                            Email = "vana@gmail.com",
+                            FullName = "Nguyen Van A",
+                            IsActive = true,
+                            Password = "abc123456",
+                            PositionId = 1
+                        },
+                        new
+                        {
+                            Id = "53084912",
+                            BaseSalaryPerHour = 0m,
+                            CreateDate = new DateTime(2023, 8, 21, 21, 59, 23, 890, DateTimeKind.Local).AddTicks(4602),
+                            Email = "vanb@gmail.com",
+                            FullName = "Nguyen Van B",
+                            IsActive = true,
+                            Password = "123456",
+                            PositionId = 2
+                        },
+                        new
+                        {
+                            Id = "50516367",
+                            BaseSalaryPerHour = 0m,
+                            CreateDate = new DateTime(2023, 8, 21, 21, 59, 23, 890, DateTimeKind.Local).AddTicks(4616),
+                            Email = "vanc@gmail.com",
+                            FullName = "Pham Van C",
+                            IsActive = true,
+                            Password = "asd123456",
+                            PositionId = 3
+                        },
+                        new
+                        {
+                            Id = "30060204",
+                            BaseSalaryPerHour = 0m,
+                            CreateDate = new DateTime(2023, 8, 21, 21, 59, 23, 890, DateTimeKind.Local).AddTicks(4632),
+                            Email = "thid@gmail.com",
+                            FullName = "Le Thi D",
+                            IsActive = true,
+                            Password = "asd123456",
+                            PositionId = 3
+                        },
+                        new
+                        {
+                            Id = "51734122",
+                            BaseSalaryPerHour = 0m,
+                            CreateDate = new DateTime(2023, 8, 21, 21, 59, 23, 890, DateTimeKind.Local).AddTicks(4646),
+                            Email = "thin@gmail.com",
+                            FullName = "Nguyen Thi N",
+                            IsActive = true,
+                            Password = "asd123456",
+                            PositionId = 3
+                        });
                 });
 
             modelBuilder.Entity("MiniStore.Models.Order", b =>
@@ -315,35 +375,6 @@ namespace MiniStore.Migrations
                         });
                 });
 
-            modelBuilder.Entity("MiniStore.Models.OrderStatus", b =>
-                {
-                    b.Property<int>("StatusId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusId"));
-
-                    b.Property<string>("Title")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("StatusId");
-
-                    b.ToTable("OrderStatuses");
-
-                    b.HasData(
-                        new
-                        {
-                            StatusId = 1,
-                            Title = "Processing"
-                        },
-                        new
-                        {
-                            StatusId = 2,
-                            Title = "Done"
-                        });
-                });
-
             modelBuilder.Entity("MiniStore.Models.Payslip", b =>
                 {
                     b.Property<string>("PayslipId")
@@ -376,12 +407,6 @@ namespace MiniStore.Migrations
 
                     b.Property<decimal>("TotalSalary")
                         .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("TotalWorkHours")
-                        .HasColumnType("int");
-
-                    b.Property<int>("TotalWorkLate")
-                        .HasColumnType("int");
 
                     b.Property<int>("Year")
                         .HasColumnType("int");
@@ -741,6 +766,23 @@ namespace MiniStore.Migrations
                         });
                 });
 
+            modelBuilder.Entity("MiniStore.Models.Status", b =>
+                {
+                    b.Property<int>("StatusId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("StatusId"));
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("StatusId");
+
+                    b.ToTable("Status");
+                });
+
             modelBuilder.Entity("MiniStore.Models.Voucher", b =>
                 {
                     b.Property<int>("Id")
@@ -801,6 +843,9 @@ namespace MiniStore.Migrations
                         .HasColumnType("datetime2");
 
                     b.Property<bool>("IsHoliday")
+                        .HasColumnType("bit");
+
+                    b.Property<bool>("IsSunday")
                         .HasColumnType("bit");
 
                     b.Property<string>("PayslipId")
@@ -907,7 +952,7 @@ namespace MiniStore.Migrations
                         .WithMany()
                         .HasForeignKey("SalerId");
 
-                    b.HasOne("MiniStore.Models.OrderStatus", "Status")
+                    b.HasOne("MiniStore.Models.Status", "Status")
                         .WithMany()
                         .HasForeignKey("StatusId")
                         .OnDelete(DeleteBehavior.Cascade)

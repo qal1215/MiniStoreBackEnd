@@ -40,6 +40,29 @@ namespace MiniStore.Controllers
             return Ok(result);
         }
 
+        [HttpGet("{orderId}")]
+        public async Task<ActionResult<ViewOrder>> GetOrderById(string orderId)
+        {
+            var result = await _context.Orders
+                .Where(string.IsNullOrEmpty(orderId) ? o => o.Id.Equals(orderId) : o => false)
+                .Select(o => new ViewOrder
+                {
+                    OrderId = o.Id,
+                    CreateDate = o.CreateDate,
+                    CustomerName = o.CustomerName,
+                    SalerId = o.SalerId,
+                    Saler = o.Saler!.FullName,
+                    TotalAmount = o!.TotalAmount,
+                    TotalItems = o.TotalItems,
+                    StatusId = o.StatusId,
+                })
+                .FirstOrDefaultAsync();
+
+            if (result == null) return NoContent();
+
+            return Ok(result);
+        }
+
         [HttpPost("")]
         public async Task<IActionResult> CreateOrder(CreateOrder order)
         {

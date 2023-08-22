@@ -25,13 +25,14 @@ namespace MiniStore.Models
 
         public Employee? Saler { get; set; }
 
-        public Status Status { get; set; } = null!;
+        public OrderStatus Status { get; set; } = null!;
 
         public List<OrderDetail> OrderDetails { get; set; } = null!;
     }
 
-    public class Status
+    public class OrderStatus
     {
+        [Key]
         public int StatusId { get; set; }
 
         public string Title { get; set; } = null!;

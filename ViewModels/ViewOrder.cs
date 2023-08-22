@@ -20,7 +20,7 @@ namespace MiniStore.ViewModels
 
         public int StatusId { get; set; }
 
-        public Status Status { get; set; } = null!;
+        public OrderStatus Status { get; set; } = null!;
 
         public IEnumerable<OrderDetail> OrderDetails { get; set; } = null!;
     }

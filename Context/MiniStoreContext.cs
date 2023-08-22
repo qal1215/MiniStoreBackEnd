@@ -1,6 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using MiniStore.Models;
-using MiniStore.Utility;
 
 namespace MiniStore.Context
 {
@@ -15,6 +14,8 @@ namespace MiniStore.Context
         public DbSet<Position> Positions { get; set; }
 
         public DbSet<Order> Orders { get; set; }
+
+        public DbSet<OrderStatus> OrderStatuses { get; set; }
 
         public DbSet<OrderDetail> OrderDetails { get; set; }
 
@@ -59,60 +60,66 @@ namespace MiniStore.Context
                     new WorkshiftType { Id = 5, Name = "guard-shift-2", PositionId = 2 }
                 );
 
-            modelBuilder.Entity<Employee>()
-                .HasData(
-                    new Employee
-                    {
-                        Id = Ultility.GenerateEightDigitId(),
-                        FullName = "Nguyen Van A",
-                        Email = "vana@gmail.com",
-                        Password = "abc123456",
-                        CreateDate = DateTime.Now,
-                        PositionId = 1,
-                    },
-                    new Employee
-                    {
-                        Id = Ultility.GenerateEightDigitId(),
-                        FullName = "Nguyen Van B",
-                        Email = "vanb@gmail.com",
-                        Password = "123456",
-                        CreateDate = DateTime.Now,
-                        PositionId = 2,
-                    },
-                    new Employee
-                    {
-                        Id = Ultility.GenerateEightDigitId(),
-                        FullName = "Pham Van C",
-                        Email = "vanc@gmail.com",
-                        Password = "asd123456",
-                        CreateDate = DateTime.Now,
-                        PositionId = 3,
-                    },
-                    new Employee
-                    {
-                        Id = Ultility.GenerateEightDigitId(),
-                        FullName = "Le Thi D",
-                        Email = "thid@gmail.com",
-                        Password = "asd123456",
-                        CreateDate = DateTime.Now,
-                        PositionId = 3,
-                    },
-                    new Employee
-                    {
-                        Id = Ultility.GenerateEightDigitId(),
-                        FullName = "Nguyen Thi N",
-                        Email = "thin@gmail.com",
-                        Password = "asd123456",
-                        CreateDate = DateTime.Now,
-                        PositionId = 3,
-                    }
-                );
+            //modelBuilder.Entity<Employee>()
+            //    .HasData(
+            //        new Employee
+            //        {
+            //            Id = Ultility.GenerateEightDigitId(),
+            //            FullName = "Nguyen Van A",
+            //            Email = "vana@gmail.com",
+            //            Password = "abc123456",
+            //            CreateDate = DateTime.Now,
+            //            PositionId = 1,
+            //        },
+            //        new Employee
+            //        {
+            //            Id = Ultility.GenerateEightDigitId(),
+            //            FullName = "Nguyen Van B",
+            //            Email = "vanb@gmail.com",
+            //            Password = "123456",
+            //            CreateDate = DateTime.Now,
+            //            PositionId = 2,
+            //        },
+            //        new Employee
+            //        {
+            //            Id = Ultility.GenerateEightDigitId(),
+            //            FullName = "Pham Van C",
+            //            Email = "vanc@gmail.com",
+            //            Password = "asd123456",
+            //            CreateDate = DateTime.Now,
+            //            PositionId = 3,
+            //        },
+            //        new Employee
+            //        {
+            //            Id = Ultility.GenerateEightDigitId(),
+            //            FullName = "Le Thi D",
+            //            Email = "thid@gmail.com",
+            //            Password = "asd123456",
+            //            CreateDate = DateTime.Now,
+            //            PositionId = 3,
+            //        },
+            //        new Employee
+            //        {
+            //            Id = Ultility.GenerateEightDigitId(),
+            //            FullName = "Nguyen Thi N",
+            //            Email = "thin@gmail.com",
+            //            Password = "asd123456",
+            //            CreateDate = DateTime.Now,
+            //            PositionId = 3,
+            //        }
+            //    );
 
             modelBuilder.Entity<ApprovalStatus>()
                 .HasData(
                     new ApprovalStatus { Id = 1, Status = "Pending" },
                     new ApprovalStatus { Id = 2, Status = "Approve" },
                     new ApprovalStatus { Id = 3, Status = "Reject" }
+                );
+
+            modelBuilder.Entity<OrderStatus>()
+                .HasData(
+                    new OrderStatus { StatusId = 1, Title = "Processing" },
+                    new OrderStatus { StatusId = 2, Title = "Done" }
                 );
 
             modelBuilder.Entity<Category>()
