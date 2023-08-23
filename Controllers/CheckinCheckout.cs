@@ -28,6 +28,12 @@ namespace MiniStore.Controllers
 
             if (workshift == null) return BadRequest(new { Message = "EmployeeId and WorkshiftId don't match!" });
 
+            var exist = await _context.CheckinCheckouts
+                .Where(c => c.WorkshiftId.Equals(checkin.WorkshiftId))
+                .FirstOrDefaultAsync();
+
+            if (exist != null) return BadRequest(new { Message = "You have already checked in!" });
+
             Models.CheckinCheckout model = new()
             {
                 CheckinTime = checkin.DateTime,
