@@ -1,6 +1,4 @@
-﻿using MiniStore.Models;
-
-namespace MiniStore.ViewModels
+﻿namespace MiniStore.ViewModels
 {
     public class ViewRevenue
     {

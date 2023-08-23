@@ -47,8 +47,6 @@ namespace MiniStore.Controllers
                     .Where(p => p.IsProcessing)
                     .FirstOrDefaultAsync();
 
-            if (checkInitSalary != null) return Ok(checkInitSalary);
-
             var ws = await _context.WorkShifts
                .Where(w => w.EmployeeId.Equals(request.EmployeeId))
                .Where(w => w.ApprovalStatusId.Equals(2))
@@ -56,36 +54,66 @@ namespace MiniStore.Controllers
                            && w.EndDate.DayOfYear <= request.EndDate.DayOfYear)
                .ToListAsync();
 
-
-
-            if (ws == null)
+            foreach (Workshift workshift in ws)
             {
-                ws = new List<Workshift>();
+                var checkin = await _context.CheckinCheckouts
+                    .Where(c => c.WorkshiftId.Equals(workshift.Id))
+                    .FirstOrDefaultAsync();
             }
 
-            decimal totalHours = ws.Sum(w => CalculateHours(w.StartDate, w.EndDate) * w.CoefficientsSalary);
+            ws = ws.Where(w => w.CheckinCheckout != null).ToList();
 
+
+
+            decimal totalHours = ws.Sum(w => CalculateHours(w.StartDate, w.EndDate) * w.CoefficientsSalary);
             decimal salary = totalHours * request.BaseSalaryPerHour;
 
-            Payslip payslip = new()
+
+
+            if (checkInitSalary == null)
             {
-                PayslipId = Ultility.GenerateEightDigitId(),
-                EmployeeId = request.EmployeeId,
-                BaseSalaryPerHour = request.BaseSalaryPerHour,
-                Month = request.Month,
-                Year = request.Year,
-                StartDay = request.StartDate,
-                EndDay = request.EndDate,
-                BaseSalary = salary,
-                TotalWorkHours = totalHours,
-                TotalSalary = salary,
-                WorkShifts = ws
-            };
+                Payslip payslip = new()
+                {
+                    PayslipId = Ultility.GenerateEightDigitId(),
+                    EmployeeId = request.EmployeeId,
+                    BaseSalaryPerHour = request.BaseSalaryPerHour,
+                    Month = request.Month,
+                    Year = request.Year,
+                    StartDay = request.StartDate,
+                    EndDay = request.EndDate,
+                    BaseSalary = salary,
+                    TotalWorkHours = totalHours,
+                    TotalSalary = salary,
+                };
+                payslip.WorkShifts = ws;
+                await _context.Payslips.AddAsync(payslip);
 
-            await _context.Payslips.AddAsync(payslip);
-            await _context.SaveChangesAsync();
+                await _context.SaveChangesAsync();
 
-            return Ok(payslip);
+                foreach (Workshift workshift in ws)
+                {
+                    workshift.CheckinCheckout = null;
+                }
+
+                return Ok(payslip);
+            }
+            else
+            {
+                checkInitSalary.TotalWorkHours = totalHours;
+                checkInitSalary.TotalSalary = salary;
+                checkInitSalary.WorkShifts = ws;
+
+                _context.Payslips.Update(checkInitSalary);
+                await _context.SaveChangesAsync();
+
+                foreach (Workshift workshift in ws)
+                {
+                    workshift.CheckinCheckout = null;
+                }
+
+                return Ok(checkInitSalary);
+            }
+
         }
 
         [EnableCors("Default")]
