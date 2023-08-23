@@ -2,7 +2,6 @@
 {
     public class ViewWorkshift
     {
-        public string Id { get; set; } = null!;
 
         public DateTime StartDate { get; set; }
 
