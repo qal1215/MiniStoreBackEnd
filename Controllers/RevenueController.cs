@@ -26,7 +26,7 @@ namespace MiniStore.Controllers
 
             if (products.Count == 0)
             {
-                throw new Exception("No product in database");
+                return BadRequest("No data");
             }
 
             List<RevenueResponse> result = new List<RevenueResponse>();
@@ -65,7 +65,7 @@ namespace MiniStore.Controllers
 
             if (products.Count == 0)
             {
-                throw new Exception("No product in database");
+                return BadRequest("No data");
             }
 
             DateTime startDate = new DateTime(year, month, 1);
