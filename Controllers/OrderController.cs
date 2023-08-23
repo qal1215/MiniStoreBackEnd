@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using MiniStore.Context;
 using MiniStore.Models;
@@ -18,6 +19,7 @@ namespace MiniStore.Controllers
             _context = context;
         }
 
+        [EnableCors("Default")]
         [HttpGet("")]
         public async Task<ActionResult<IEnumerable<ViewOrder>>> GetAllOrder()
         {
@@ -39,7 +41,7 @@ namespace MiniStore.Controllers
 
             return Ok(result);
         }
-
+        [EnableCors("Default")]
         [HttpGet("{orderId}")]
         public async Task<ActionResult<ViewOrder>> GetOrderById(string orderId)
         {
@@ -63,6 +65,7 @@ namespace MiniStore.Controllers
             return Ok(result);
         }
 
+        [EnableCors("Default")]
         [HttpPost("")]
         public async Task<IActionResult> CreateOrder(CreateOrder order)
         {
@@ -101,7 +104,5 @@ namespace MiniStore.Controllers
             await _context.SaveChangesAsync();
             return Ok(new { Message = "Created order successfully", OrderId = model.Id });
         }
-
-
     }
 }

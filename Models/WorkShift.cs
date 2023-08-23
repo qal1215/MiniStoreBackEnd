@@ -2,7 +2,7 @@
 
 namespace MiniStore.Models
 {
-    public class WorkShift
+    public class Workshift
     {
         [Key]
         public string Id { get; set; } = null!;
@@ -17,6 +17,8 @@ namespace MiniStore.Models
 
         public int ApprovalStatusId { get; set; }
 
+        public int CheckinCheckoutId { get; set; }
+
         public bool IsHoliday { get; set; }
 
         public decimal CoefficientsSalary { get; set; } = 1;
@@ -26,5 +28,7 @@ namespace MiniStore.Models
         public WorkshiftType WorkshiftType { get; set; }
 
         public ApprovalStatus ApprovalStatus { get; set; }
+
+        public CheckinCheckout? CheckinCheckout { get; set; }
     }
 }

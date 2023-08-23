@@ -23,8 +23,8 @@ namespace MiniStore.Controllers
         [HttpPost("")]
         public async Task<IActionResult> RegisterWorkShift(RegisterWorkshift registerWorkshift)
         {
-            List<WorkShift> workShifts = registerWorkshift.Workshifts
-                .Select(ws => new WorkShift
+            List<Workshift> workShifts = registerWorkshift.Workshifts
+                .Select(ws => new Workshift
                 {
                     Id = Utility.Ultility.GenerateEightDigitId(),
                     EmployeeId = registerWorkshift.EmployeeId,
@@ -35,7 +35,7 @@ namespace MiniStore.Controllers
                 })
                 .ToList();
 
-            foreach (WorkShift ws in workShifts)
+            foreach (Workshift ws in workShifts)
             {
                 DateTime tmp = ws.StartDate;
                 DateTime tmp2 = ws.EndDate;
@@ -85,7 +85,7 @@ namespace MiniStore.Controllers
                 }
             }
 
-            foreach (WorkShift ws in workShifts)
+            foreach (Workshift ws in workShifts)
             {
                 bool check = _context.WorkShifts
                 .Where(ws1 => ws1.EmployeeId.Equals(ws.EmployeeId))
@@ -103,7 +103,7 @@ namespace MiniStore.Controllers
 
         [EnableCors("Default")]
         [HttpGet("{employeeId}")]
-        public async Task<ActionResult<WorkShift>> ShowWorkshiftsByEmployeeId(string employeeId, DateOnly startDate, DateOnly endDate)
+        public async Task<ActionResult<Workshift>> ShowWorkshiftsByEmployeeId(string employeeId, DateOnly startDate, DateOnly endDate)
         {
             var registerWorkshift = await _context.WorkShifts
                 .Where(ws => ws.EmployeeId.Equals(employeeId))
@@ -115,7 +115,7 @@ namespace MiniStore.Controllers
 
         [EnableCors("Default")]
         [HttpGet("")]
-        public async Task<ActionResult<IEnumerable<WorkShift>>> ShowAllWorkshifts(DateOnly startDate, DateOnly endDate)
+        public async Task<ActionResult<IEnumerable<Workshift>>> ShowAllWorkshifts(DateOnly startDate, DateOnly endDate)
         {
             var allWorkshifts = await _context.WorkShifts
                 .Where(ws => ws.StartDate.DayOfYear >= startDate.DayOfYear && ws.EndDate.DayOfYear <= endDate.DayOfYear)
@@ -135,7 +135,7 @@ namespace MiniStore.Controllers
         [HttpPut("confirm")]
         public async Task<IActionResult> ConfirmWorkshift(ViewConfirmWorkshift confirm)
         {
-            if (confirm is not ViewConfirmWorkshift) return BadRequest(new { Message = "Please give correct format" });
+            if (confirm == null) return BadRequest(new { Message = "Please give correct format" });
 
             var workshift = await _context.WorkShifts
                 .Where(ws => ws.Id.Equals(confirm.WorkshiftId))

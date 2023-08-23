@@ -59,6 +59,7 @@ namespace MiniStoreRepository.Controllers
                 IsActive = true,
                 Password = Employee.Password,
                 Position = Position,
+                BaseSalaryPerHour = Employee.BaseSalaryPerHour
             };
 
             await _context.Employees.AddAsync(EmployeeMap);
@@ -67,7 +68,7 @@ namespace MiniStoreRepository.Controllers
         }
 
         [EnableCors("Default")]
-        [HttpGet]
+        [HttpGet("")]
         public async Task<ActionResult<IEnumerable<ViewEmployee>>> GetAllEmployees()
         {
             var result = await _context.Employees
@@ -80,7 +81,9 @@ namespace MiniStoreRepository.Controllers
                     Position = a.Position.Name,
                     CreateDate = a.CreateDate,
                     ImgUrl = a.ImgUrl,
-                    IsActive = a.IsActive
+                    IsActive = a.IsActive,
+                    BaseSalaryPerHour = a.BaseSalaryPerHour
+
                 }).ToListAsync();
 
             if (result is null) return NoContent();
@@ -102,7 +105,8 @@ namespace MiniStoreRepository.Controllers
                     Position = a.Position.Name,
                     CreateDate = a.CreateDate,
                     ImgUrl = a.ImgUrl,
-                    IsActive = a.IsActive
+                    IsActive = a.IsActive,
+                    BaseSalaryPerHour = a.BaseSalaryPerHour
                 }).FirstOrDefaultAsync();
 
             if (result is null) return NotFound(new { Message = "Not found Employee" });
@@ -126,7 +130,6 @@ namespace MiniStoreRepository.Controllers
             Position? Position = _context.Positions.Where(r => r.Name.Equals(update.RoleName)).FirstOrDefault();
             if (Position is null) return NotFound(new { Message = "PositionId invalid!" });
 
-
             try
             {
                 result.IsActive = update.IsActive;
@@ -135,6 +138,7 @@ namespace MiniStoreRepository.Controllers
                 result.FullName = update.FullName;
                 result.ImgUrl = update.ImgUrl;
                 result.Password = update.Password;
+                result.BaseSalaryPerHour = update.BaseSalaryPerHour;
 
                 _context.Employees.Update(result);
                 await _context.SaveChangesAsync();

@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniStore.Context;
 
@@ -11,9 +12,11 @@ using MiniStore.Context;
 namespace MiniStore.Migrations
 {
     [DbContext(typeof(MiniStoreContext))]
-    partial class MiniStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230823154432_AddIsProcessing_Payslip")]
+    partial class AddIsProcessing_Payslip
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

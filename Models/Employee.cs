@@ -53,6 +53,9 @@ namespace MiniStore.Models
         public string Position { get; set; } = null!;
 
         public DateTime CreateDate { get; set; }
+
+        public decimal BaseSalaryPerHour { get; set; } = 0;
+
     }
 
     public record LoginRecord
@@ -77,6 +80,8 @@ namespace MiniStore.Models
         public string? ImgUrl { get; set; }
 
         public string RoleName { get; set; } = null!;
+
+        public decimal BaseSalaryPerHour { get; set; } = 0;
     }
 
     public record UpdateRecord
@@ -96,5 +101,7 @@ namespace MiniStore.Models
         public string? RoleName { get; set; }
 
         public bool IsActive { get; set; }
+
+        public decimal BaseSalaryPerHour { get; set; } = 0;
     }
 }

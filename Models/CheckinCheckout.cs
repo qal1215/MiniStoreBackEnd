@@ -17,9 +17,10 @@ namespace MiniStore.Models
 
         public string? ImageCheckout { get; set; }
 
-        public string WorkShiftId { get; set; } = null!;
+        [ForeignKey("Workshift")]
+        public required string WorkshiftId { get; set; }
 
-        public WorkShift? WorkShift { get; set; }
+        public Workshift? Workshift { get; set; }
 
     }
 }

@@ -23,9 +23,11 @@ namespace MiniStore.Models
 
         public decimal TotalSalary { get; set; }
 
-        public int TotalWorkHours { get; set; } = 0;
+        public decimal TotalWorkHours { get; set; } = 0;
 
-        public int TotalWorkLate { get; set; } = 0;
+        public decimal TotalWorkLate { get; set; } = 0;
+
+        public bool IsProcessing { get; set; } = true;
 
         public DateTime StartDay { get; set; }
 
@@ -33,6 +35,6 @@ namespace MiniStore.Models
 
         public Employee Employee { get; set; } = null!;
 
-        public List<WorkShift>? WorkShifts { get; set; }
+        public List<Workshift>? WorkShifts { get; set; }
     }
 }

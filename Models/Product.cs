@@ -21,6 +21,8 @@ namespace MiniStore.Models
 
         public uint Stock { get; set; }
 
+        public bool IsDeleted { get; set; } = false;
+
         public int CategoryId { get; set; }
 
         public Category Category { get; set; } = null!;

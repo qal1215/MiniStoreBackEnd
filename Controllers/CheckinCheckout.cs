@@ -32,7 +32,8 @@ namespace MiniStore.Controllers
             {
                 CheckinTime = checkin.DateTime,
                 ImageCheckin = checkin.ImageData,
-                WorkShift = workshift
+                WorkshiftId = checkin.WorkshiftId!,
+                Workshift = workshift
             };
 
             await _context.CheckinCheckouts.AddAsync(model);
@@ -52,7 +53,7 @@ namespace MiniStore.Controllers
             if (workshift == null) return BadRequest(new { Message = "EmployeeId and WorkshiftId don't match!" });
 
             var checkout = await _context.CheckinCheckouts
-                .FirstOrDefaultAsync(c => c.WorkShiftId.Equals(checkin.WorkshiftId));
+                .FirstOrDefaultAsync(c => c.WorkshiftId.Equals(checkin.WorkshiftId));
 
             if (checkout == null) return BadRequest(new { Message = "Please check-in first!" });
 

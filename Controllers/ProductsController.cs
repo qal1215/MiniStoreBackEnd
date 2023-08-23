@@ -22,6 +22,7 @@ namespace MiniStoreRepository.Controllers
         public async Task<ActionResult<ViewProduct[]>> GetAllProducts()
         {
             var result = await _context.Products
+                .Where(p => p.IsDeleted == false)
                 .Select(p => new ViewProduct
                 {
                     Id = p.Id,
@@ -43,6 +44,7 @@ namespace MiniStoreRepository.Controllers
         public async Task<ActionResult<ViewProduct>> GetById(string id)
         {
             var result = await _context.Products
+                .Where(p => p.IsDeleted == false)
                 .Where(p => p.Id == id)
                 .Select(p => new ViewProduct
                 {
@@ -162,8 +164,11 @@ namespace MiniStoreRepository.Controllers
                 var product = await _context.Products.FirstOrDefaultAsync(p => p.Id.Equals(id));
                 if (product == null) return NotFound();
 
-                _context.Products.Remove(product);
+                product.IsDeleted = true;
+
+                _context.Products.Update(product);
                 await _context.SaveChangesAsync();
+
                 return Ok(new { Message = "Deleted product id" });
             }
             catch (Exception ex)

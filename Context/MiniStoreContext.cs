@@ -21,7 +21,7 @@ namespace MiniStore.Context
 
         public DbSet<Payslip> Payslips { get; set; }
 
-        public DbSet<WorkShift> WorkShifts { get; set; }
+        public DbSet<Workshift> WorkShifts { get; set; }
 
         public DbSet<WorkshiftType> WorkshiftsType { get; set; }
 
@@ -41,6 +41,7 @@ namespace MiniStore.Context
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+
             modelBuilder.Entity<OrderDetail>()
                 .ToTable(tb => tb.HasTrigger("UpdateProductQuantity"));
 

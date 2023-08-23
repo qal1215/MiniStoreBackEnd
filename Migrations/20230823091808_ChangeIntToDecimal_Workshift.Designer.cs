@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniStore.Context;
 
@@ -11,9 +12,11 @@ using MiniStore.Context;
 namespace MiniStore.Migrations
 {
     [DbContext(typeof(MiniStoreContext))]
-    partial class MiniStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230823091808_ChangeIntToDecimal_Workshift")]
+    partial class ChangeIntToDecimal_Workshift
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -369,9 +372,6 @@ namespace MiniStore.Migrations
                     b.Property<DateTime>("EndDay")
                         .HasColumnType("datetime2");
 
-                    b.Property<bool>("IsProcessing")
-                        .HasColumnType("bit");
-
                     b.Property<int>("Month")
                         .HasColumnType("int");
 
@@ -447,9 +447,6 @@ namespace MiniStore.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
-
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -477,7 +474,6 @@ namespace MiniStore.Migrations
                             CategoryId = 1,
                             Description = "Fresh juicy orange",
                             ImageUrl = "orange.jpg",
-                            IsDeleted = false,
                             Name = "Orange",
                             Price = 15000m,
                             Stock = 110L,
@@ -489,7 +485,6 @@ namespace MiniStore.Migrations
                             CategoryId = 1,
                             Description = "Sweet seedless grapes",
                             ImageUrl = "grapes.jpg",
-                            IsDeleted = false,
                             Name = "Grapes",
                             Price = 30000m,
                             Stock = 78L,
@@ -501,7 +496,6 @@ namespace MiniStore.Migrations
                             CategoryId = 2,
                             Description = "Greek yogurt",
                             ImageUrl = "yogurt.jpg",
-                            IsDeleted = false,
                             Name = "Yogurt",
                             Price = 25000m,
                             Stock = 60L,
@@ -513,7 +507,6 @@ namespace MiniStore.Migrations
                             CategoryId = 2,
                             Description = "French baguette",
                             ImageUrl = "baguette.jpg",
-                            IsDeleted = false,
                             Name = "Baguette",
                             Price = 20000m,
                             Stock = 90L,
@@ -525,7 +518,6 @@ namespace MiniStore.Migrations
                             CategoryId = 3,
                             Description = "Lean ground beef",
                             ImageUrl = "beef.jpg",
-                            IsDeleted = false,
                             Name = "Beef",
                             Price = 70000m,
                             Stock = 40L,
@@ -537,7 +529,6 @@ namespace MiniStore.Migrations
                             CategoryId = 3,
                             Description = "Spaghetti pasta",
                             ImageUrl = "pasta.jpg",
-                            IsDeleted = false,
                             Name = "Pasta",
                             Price = 30000m,
                             Stock = 120L,
@@ -549,7 +540,6 @@ namespace MiniStore.Migrations
                             CategoryId = 4,
                             Description = "Chocolate chip cookies",
                             ImageUrl = "cookies.jpg",
-                            IsDeleted = false,
                             Name = "Cookies",
                             Price = 50000m,
                             Stock = 179L,
@@ -561,7 +551,6 @@ namespace MiniStore.Migrations
                             CategoryId = 4,
                             Description = "Carbonated soft drink",
                             ImageUrl = "soda.jpg",
-                            IsDeleted = false,
                             Name = "Soda",
                             Price = 20000m,
                             Stock = 240L,
@@ -573,7 +562,6 @@ namespace MiniStore.Migrations
                             CategoryId = 5,
                             Description = "Mint-flavored toothpaste",
                             ImageUrl = "toothpaste.jpg",
-                            IsDeleted = false,
                             Name = "Toothpaste",
                             Price = 5000m,
                             Stock = 100L,
@@ -585,7 +573,6 @@ namespace MiniStore.Migrations
                             CategoryId = 5,
                             Description = "Hair conditioner",
                             ImageUrl = "conditioner.jpg",
-                            IsDeleted = false,
                             Name = "Conditioner",
                             Price = 7000m,
                             Stock = 120L,
@@ -597,7 +584,6 @@ namespace MiniStore.Migrations
                             CategoryId = 1,
                             Description = "Fresh green lettuce",
                             ImageUrl = "lettuce.jpg",
-                            IsDeleted = false,
                             Name = "Lettuce",
                             Price = 8000m,
                             Stock = 90L,
@@ -609,7 +595,6 @@ namespace MiniStore.Migrations
                             CategoryId = 1,
                             Description = "Sweet blueberries",
                             ImageUrl = "blueberries.jpg",
-                            IsDeleted = false,
                             Name = "Blueberries",
                             Price = 45000m,
                             Stock = 60L,
@@ -621,7 +606,6 @@ namespace MiniStore.Migrations
                             CategoryId = 2,
                             Description = "Cheddar cheese",
                             ImageUrl = "cheese.jpg",
-                            IsDeleted = false,
                             Name = "Cheese",
                             Price = 55000m,
                             Stock = 50L,
@@ -633,7 +617,6 @@ namespace MiniStore.Migrations
                             CategoryId = 2,
                             Description = "Plain bagels",
                             ImageUrl = "bagels.jpg",
-                            IsDeleted = false,
                             Name = "Bagels",
                             Price = 25000m,
                             Stock = 100L,
@@ -645,7 +628,6 @@ namespace MiniStore.Migrations
                             CategoryId = 3,
                             Description = "Fresh salmon fillet",
                             ImageUrl = "salmon.jpg",
-                            IsDeleted = false,
                             Name = "Salmon",
                             Price = 899000m,
                             Stock = 20L,
@@ -657,7 +639,6 @@ namespace MiniStore.Migrations
                             CategoryId = 1,
                             Description = "Sweet tropical pineapple",
                             ImageUrl = "pineapple.jpg",
-                            IsDeleted = false,
                             Name = "Pineapple",
                             Price = 30000m,
                             Stock = 70L,
@@ -669,7 +650,6 @@ namespace MiniStore.Migrations
                             CategoryId = 1,
                             Description = "Juicy red strawberries",
                             ImageUrl = "strawberries.jpg",
-                            IsDeleted = false,
                             Name = "Strawberries",
                             Price = 40000m,
                             Stock = 50L,
@@ -681,7 +661,6 @@ namespace MiniStore.Migrations
                             CategoryId = 2,
                             Description = "Fresh cow milk",
                             ImageUrl = "milk.jpg",
-                            IsDeleted = false,
                             Name = "Milk",
                             Price = 20000m,
                             Stock = 30L,
@@ -693,7 +672,6 @@ namespace MiniStore.Migrations
                             CategoryId = 2,
                             Description = "Farm-fresh eggs",
                             ImageUrl = "eggs.jpg",
-                            IsDeleted = false,
                             Name = "Eggs",
                             Price = 15000m,
                             Stock = 100L,
@@ -705,7 +683,6 @@ namespace MiniStore.Migrations
                             CategoryId = 3,
                             Description = "Lean pork chops",
                             ImageUrl = "pork.jpg",
-                            IsDeleted = false,
                             Name = "Pork",
                             Price = 55000m,
                             Stock = 35L,
@@ -717,7 +694,6 @@ namespace MiniStore.Migrations
                             CategoryId = 1,
                             Description = "Fresh orange carrots",
                             ImageUrl = "carrots.jpg",
-                            IsDeleted = false,
                             Name = "Carrots",
                             Price = 12000m,
                             Stock = 90L,
@@ -729,7 +705,6 @@ namespace MiniStore.Migrations
                             CategoryId = 1,
                             Description = "Vine-ripened tomatoes",
                             ImageUrl = "tomatoes.jpg",
-                            IsDeleted = false,
                             Name = "Tomatoes",
                             Price = 18000m,
                             Stock = 70L,
@@ -741,7 +716,6 @@ namespace MiniStore.Migrations
                             CategoryId = 2,
                             Description = "Creamy butter",
                             ImageUrl = "butter.jpg",
-                            IsDeleted = false,
                             Name = "Butter",
                             Price = 28000m,
                             Stock = 40L,
@@ -753,7 +727,6 @@ namespace MiniStore.Migrations
                             CategoryId = 4,
                             Description = "Fruit juice",
                             ImageUrl = "juice.jpg",
-                            IsDeleted = false,
                             Name = "Juice",
                             Price = 25000m,
                             Stock = 60L,
@@ -765,7 +738,6 @@ namespace MiniStore.Migrations
                             CategoryId = 5,
                             Description = "Hair shampoo",
                             ImageUrl = "shampoo.jpg",
-                            IsDeleted = false,
                             Name = "Shampoo",
                             Price = 8500m,
                             Stock = 100L,
