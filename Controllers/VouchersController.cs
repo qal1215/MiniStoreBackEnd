@@ -64,6 +64,7 @@ namespace MiniStore.Controllers
             var voucher = await _context.Vouchers.FirstOrDefaultAsync(c => c.Id == voucherId);
             if (voucher == null) return BadRequest(new { Message = "Voucher is not existed" });
             voucher.ActualEndTime = DateTime.Now;
+            voucher.Status = false;
             await _context.SaveChangesAsync();
             string announce = String.Format("Finish voucher success");
             return Ok(new { Message = announce });

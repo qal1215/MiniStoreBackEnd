@@ -14,7 +14,7 @@
 
         public DateTime? ActualEndTime { get; set; }
 
-        public string Status { get; set; }
+        public bool Status { get; set; }
 
         public int RemainingProducts { get; set; }
 
@@ -32,7 +32,7 @@
 
         public DateTime? ActualEndTime { get; set; }
 
-        public string Status { get; set; }
+        public bool Status { get; set; }
 
         public int RemainingProducts { get; set; }
 
