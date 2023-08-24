@@ -16,7 +16,6 @@ namespace MiniStore.Models
 
         public bool IsActive { get; set; } = true;
 
-        [Url]
         public string? ImgUrl { get; set; }
 
         public decimal BaseSalaryPerHour { get; set; } = 0;
@@ -76,7 +75,6 @@ namespace MiniStore.Models
 
         public string Password { get; set; } = null!;
 
-        [Url]
         public string? ImgUrl { get; set; }
 
         public string RoleName { get; set; } = null!;
@@ -95,7 +93,6 @@ namespace MiniStore.Models
 
         public string Password { get; set; } = null!;
 
-        [Url]
         public string? ImgUrl { get; set; }
 
         public string? RoleName { get; set; }

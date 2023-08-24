@@ -45,14 +45,14 @@ namespace MiniStore.Context
             modelBuilder.Entity<OrderDetail>()
                 .ToTable(tb => tb.HasTrigger("UpdateProductQuantity"));
 
-            modelBuilder.Entity<Payslip>()
-                .HasOne(p => p.Employee)
-                .WithOne()
-                .HasForeignKey<Payslip>(p => p.EmployeeId);
+            //modelBuilder.Entity<Payslip>()
+            //    .HasOne(p => p.Employee)
+            //    .WithOne()
+            //    .HasForeignKey<Payslip>(p => p.EmployeeId);
 
-            modelBuilder.Entity<Payslip>()
-                .HasMany(p => p.WorkShifts)
-                .WithOne();
+            //modelBuilder.Entity<Payslip>()
+            //    .HasMany(p => p.WorkShifts)
+            //    .WithOne();
 
             modelBuilder.Entity<Position>()
                 .HasData(

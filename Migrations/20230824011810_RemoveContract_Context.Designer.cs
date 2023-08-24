@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using MiniStore.Context;
 
@@ -11,9 +12,11 @@ using MiniStore.Context;
 namespace MiniStore.Migrations
 {
     [DbContext(typeof(MiniStoreContext))]
-    partial class MiniStoreContextModelSnapshot : ModelSnapshot
+    [Migration("20230824011810_RemoveContract_Context")]
+    partial class RemoveContract_Context
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -36,7 +39,7 @@ namespace MiniStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("ApprovalStatuses", (string)null);
+                    b.ToTable("ApprovalStatuses");
 
                     b.HasData(
                         new
@@ -70,7 +73,7 @@ namespace MiniStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories", (string)null);
+                    b.ToTable("Categories");
 
                     b.HasData(
                         new
@@ -204,7 +207,7 @@ namespace MiniStore.Migrations
                     b.HasIndex("WorkshiftId")
                         .IsUnique();
 
-                    b.ToTable("CheckinCheckouts", (string)null);
+                    b.ToTable("CheckinCheckouts");
                 });
 
             modelBuilder.Entity("MiniStore.Models.Employee", b =>
@@ -243,7 +246,7 @@ namespace MiniStore.Migrations
 
                     b.HasIndex("PositionId");
 
-                    b.ToTable("Employees", (string)null);
+                    b.ToTable("Employees");
                 });
 
             modelBuilder.Entity("MiniStore.Models.Order", b =>
@@ -279,7 +282,7 @@ namespace MiniStore.Migrations
 
                     b.HasIndex("StatusId");
 
-                    b.ToTable("Orders", (string)null);
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("MiniStore.Models.OrderDetail", b =>
@@ -310,7 +313,7 @@ namespace MiniStore.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("OrderDetails", null, t =>
+                    b.ToTable("OrderDetails", t =>
                         {
                             t.HasTrigger("UpdateProductQuantity");
                         });
@@ -330,7 +333,7 @@ namespace MiniStore.Migrations
 
                     b.HasKey("StatusId");
 
-                    b.ToTable("OrderStatuses", (string)null);
+                    b.ToTable("OrderStatuses");
 
                     b.HasData(
                         new
@@ -394,7 +397,7 @@ namespace MiniStore.Migrations
 
                     b.HasIndex("EmployeeId");
 
-                    b.ToTable("Payslips", (string)null);
+                    b.ToTable("Payslips");
                 });
 
             modelBuilder.Entity("MiniStore.Models.Position", b =>
@@ -411,7 +414,7 @@ namespace MiniStore.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Positions", (string)null);
+                    b.ToTable("Positions");
 
                     b.HasData(
                         new
@@ -468,7 +471,7 @@ namespace MiniStore.Migrations
 
                     b.HasIndex("CategoryId");
 
-                    b.ToTable("Products", (string)null);
+                    b.ToTable("Products");
 
                     b.HasData(
                         new
@@ -811,7 +814,7 @@ namespace MiniStore.Migrations
 
                     b.HasIndex("ProductId");
 
-                    b.ToTable("Vouchers", (string)null);
+                    b.ToTable("Vouchers");
                 });
 
             modelBuilder.Entity("MiniStore.Models.Workshift", b =>
@@ -857,7 +860,7 @@ namespace MiniStore.Migrations
 
                     b.HasIndex("WorkshiftTypeId");
 
-                    b.ToTable("WorkShifts", (string)null);
+                    b.ToTable("WorkShifts");
                 });
 
             modelBuilder.Entity("MiniStore.Models.WorkshiftType", b =>
@@ -879,7 +882,7 @@ namespace MiniStore.Migrations
 
                     b.HasIndex("PositionId");
 
-                    b.ToTable("WorkshiftsType", (string)null);
+                    b.ToTable("WorkshiftsType");
 
                     b.HasData(
                         new
