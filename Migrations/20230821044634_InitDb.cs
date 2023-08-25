@@ -142,7 +142,7 @@ namespace MiniStore.Migrations
                     StartTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ExpectedEndTime = table.Column<DateTime>(type: "datetime2", nullable: false),
                     ActualEndTime = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    Status = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Status = table.Column<bool>(type: "bit", nullable: false),
                     RemainingProducts = table.Column<int>(type: "int", nullable: false),
                     ProductId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
