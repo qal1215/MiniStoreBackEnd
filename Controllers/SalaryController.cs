@@ -151,11 +151,13 @@ namespace MiniStore.Controllers
         public async Task<ActionResult<IEnumerable<Payslip>>> GetAllPayslips()
         {
             var payslips = await _context.Payslips
+                .Where(payslips => !payslips.IsProcessing)
                 .Include(p => p.WorkShifts)
                 .ToListAsync();
 
             if (payslips == null) return NoContent();
 
+            payslips.ForEach(p => p.Employee = _context.Employees.Select(e => new Employee { Id = e.Id, FullName = e.FullName }).FirstOrDefault(e => e.Id.Equals(p.EmployeeId)));
             return Ok(payslips);
         }
 
@@ -169,6 +171,7 @@ namespace MiniStore.Controllers
                 .FirstOrDefaultAsync();
 
             if (salary == null) return NoContent();
+            salary.Employee = _context.Employees.Select(e => new Employee { Id = e.Id, FullName = e.FullName }).FirstOrDefault(e => e.Id.Equals(salary.EmployeeId));
 
             return Ok(salary);
         }
