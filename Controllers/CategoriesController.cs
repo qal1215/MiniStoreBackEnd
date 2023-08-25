@@ -18,7 +18,7 @@ namespace MiniStoreRepository.Controllers
         }
 
         [HttpGet]
-        [EnableCors("default")]
+        [EnableCors("Default")]
         public async Task<ActionResult<IEnumerable<Category>>> GetAllCategories()
         {
             var categories = await _context.Categories.ToArrayAsync();
@@ -27,7 +27,7 @@ namespace MiniStoreRepository.Controllers
         }
 
         [HttpPut]
-        [EnableCors("default")]
+        [EnableCors("Default")]
         public async Task<ActionResult<Category>> UpdateCategory(Category category)
         {
             var result = await _context.Categories

@@ -188,7 +188,7 @@ namespace MiniStore.Controllers
                 .ToListAsync();
 
             if (payslips == null) return NoContent();
-
+            payslips.ForEach(p => p.Employee = _context.Employees.Select(e => new Employee { Id = e.Id, FullName = e.FullName }).FirstOrDefault(e => e.Id.Equals(p.EmployeeId)));
             return Ok(payslips);
         }
     }
