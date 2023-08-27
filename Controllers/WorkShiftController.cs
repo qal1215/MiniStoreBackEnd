@@ -107,8 +107,28 @@ namespace MiniStore.Controllers
         {
             var registerWorkshift = await _context.WorkShifts
                 .Where(ws => ws.EmployeeId.Equals(employeeId))
-                .Where(ws => ws.StartDate.DayOfYear >= startDate.DayOfYear && ws.EndDate.DayOfYear <= endDate.DayOfYear)
+                .Where(ws => ws.StartDate.DayOfYear == startDate.DayOfYear)
                 .ToListAsync();
+
+            if (registerWorkshift.IsNullOrEmpty()) return NoContent();
+
+            foreach (var ws in registerWorkshift)
+            {
+                ws.CheckinCheckout = await _context.CheckinCheckouts
+                    .Where(cc => cc.WorkshiftId.Equals(ws.Id))
+                    .Select(cc => new CheckinCheckout
+                    {
+                        Id = cc.Id,
+                        CheckinTime = cc.CheckinTime,
+                        CheckoutTime = cc.CheckoutTime,
+                        WorkshiftId = cc.WorkshiftId
+                    })
+                    .FirstOrDefaultAsync();
+                if (ws.CheckinCheckout != null)
+                {
+                    ws.CheckinCheckoutId = ws.CheckinCheckout!.Id;
+                }
+            }
 
             return Ok(registerWorkshift);
         }
@@ -118,17 +138,23 @@ namespace MiniStore.Controllers
         public async Task<ActionResult<IEnumerable<Workshift>>> ShowAllWorkshifts(DateOnly startDate, DateOnly endDate)
         {
             var allWorkshifts = await _context.WorkShifts
-                .Where(ws => ws.StartDate.DayOfYear >= startDate.DayOfYear && ws.EndDate.DayOfYear <= endDate.DayOfYear)
+                .Where(ws => ws.StartDate.DayOfYear >= startDate.DayOfYear && ws.StartDate.DayOfYear <= endDate.DayOfYear)
                 .ToListAsync();
+
+            if (allWorkshifts.IsNullOrEmpty()) return NoContent();
 
             allWorkshifts.ForEach(ws =>
             {
                 ws.Employee = _context.Employees.FirstOrDefault(emp => emp.Id.Equals(ws.EmployeeId))!;
             });
 
-            if (allWorkshifts.IsNullOrEmpty()) return NoContent();
+            var result = allWorkshifts
+                .OrderBy(ws => ws.StartDate.DayOfYear)
+                .ThenBy(ws => ws.StartDate.Hour)
+                .ThenBy(ws => ws.EmployeeId)
+                .ToList();
 
-            return Ok(allWorkshifts);
+            return Ok(result);
         }
 
         [EnableCors("Default")]

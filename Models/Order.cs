@@ -21,6 +21,8 @@ namespace MiniStore.Models
 
         public double DiscountPrice { get; set; }
 
+        public decimal Cash { get; set; }
+
         public int StatusId { get; set; }
 
         public Employee? Saler { get; set; }

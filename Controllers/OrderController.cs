@@ -24,6 +24,8 @@ namespace MiniStore.Controllers
         public async Task<ActionResult<IEnumerable<ViewOrder>>> GetAllOrder()
         {
             var result = await _context.Orders
+                .Include(o => o.OrderDetails)
+                .ThenInclude(od => od.Product)
                 .Select(o => new ViewOrder
                 {
                     OrderId = o.Id,
@@ -33,7 +35,14 @@ namespace MiniStore.Controllers
                     Saler = o.Saler!.FullName,
                     TotalAmount = o!.TotalAmount,
                     TotalItems = o.TotalItems,
-                    StatusId = o.StatusId,
+                    OrderDetails = o.OrderDetails.Select(od => new ViewOrderDetail
+                    {
+                        ProductId = od.ProductId,
+                        ProductName = od.Product.Name,
+                        Quantity = od.Quantity,
+                        UnitPrice = od.UnitPrice,
+                        Amount = od.Quantity * od.UnitPrice
+                    }).ToList()
                 })
                 .ToListAsync();
 
@@ -56,7 +65,6 @@ namespace MiniStore.Controllers
                     Saler = o.Saler!.FullName,
                     TotalAmount = o!.TotalAmount,
                     TotalItems = o.TotalItems,
-                    StatusId = o.StatusId,
                 })
                 .FirstOrDefaultAsync();
 
@@ -81,6 +89,10 @@ namespace MiniStore.Controllers
             var saler = await _context.Employees.FirstOrDefaultAsync(e => e.Id == order.SalerId);
             if (saler == null) return BadRequest(new { Message = "Saler ID not correct!" });
 
+            var isOverStock = orderDetails.Any(o => o.Quantity > _context.Products.Where(p => p.Id.Equals(o.ProductId)).Select(p => p.Stock).FirstOrDefault());
+
+            if (isOverStock) return BadRequest(new { Message = "Over stock!" });
+
             var totalItems = (uint)order.OrderDetails.Sum(od => od.Quantity);
             var totalAmong = order.OrderDetails.Sum(od => od.Quantity * od.UnitPrice);
 
@@ -93,6 +105,7 @@ namespace MiniStore.Controllers
                 CustomerName = order.CustomerName,
                 TotalItems = totalItems,
                 TotalAmount = totalAmong,
+                Cash = order.Cash,
                 OrderDetails = orderDetails,
                 StatusId = 2, //statusId = 2 for done the order
                 SalerId = saler!.Id,

@@ -1,6 +1,4 @@
-﻿using MiniStore.Models;
-
-namespace MiniStore.ViewModels
+﻿namespace MiniStore.ViewModels
 {
     public class ViewOrder
     {
@@ -18,11 +16,7 @@ namespace MiniStore.ViewModels
 
         public string? Saler { get; set; }
 
-        public int StatusId { get; set; }
-
-        public OrderStatus Status { get; set; } = null!;
-
-        public IEnumerable<OrderDetail> OrderDetails { get; set; } = null!;
+        public IEnumerable<ViewOrderDetail> OrderDetails { get; set; } = null!;
     }
 
     public class CreateOrder
@@ -31,6 +25,12 @@ namespace MiniStore.ViewModels
 
         public string SalerId { get; set; } = null!;
 
+        public decimal TotalAmount { get; set; }
+
+        public uint TotalItems { get; set; }
+
+        public decimal Cash { get; set; }
+
         public required List<ViewOrderDetail> OrderDetails { get; set; }
     }
 
@@ -38,8 +38,12 @@ namespace MiniStore.ViewModels
     {
         public string ProductId { get; set; } = null!;
 
+        public string ProductName { get; set; } = null!;
+
         public decimal UnitPrice { get; set; }
 
         public uint Quantity { get; set; }
+
+        public decimal Amount { get; set; }
     }
 }

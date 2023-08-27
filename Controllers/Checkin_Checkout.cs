@@ -8,11 +8,11 @@ namespace MiniStore.Controllers
 {
     [Route("api/")]
     [ApiController]
-    public class CheckinCheckout : ControllerBase
+    public class Checkin_Checkout : ControllerBase
     {
         private readonly MiniStoreContext _context;
 
-        public CheckinCheckout(MiniStoreContext context)
+        public Checkin_Checkout(MiniStoreContext context)
         {
             _context = context;
         }
@@ -44,7 +44,7 @@ namespace MiniStore.Controllers
 
             await _context.CheckinCheckouts.AddAsync(model);
             await _context.SaveChangesAsync();
-            return Ok();
+            return Ok(new { Message = "Check in successfully!" });
         }
 
         [EnableCors("Default")]
@@ -63,12 +63,16 @@ namespace MiniStore.Controllers
 
             if (checkout == null) return BadRequest(new { Message = "Please check-in first!" });
 
+            DateTime checkoutTime = checkout.CheckoutTime;
+
+            if (checkoutTime.Year != 1) return BadRequest(new { Message = "You have already checked out!" });
+
             checkout.CheckoutTime = checkin.DateTime;
             checkout.ImageCheckout = checkin.ImageData;
 
             _context.CheckinCheckouts.Update(checkout);
             await _context.SaveChangesAsync();
-            return Ok(new { Message = "Checkout successfully" });
+            return Ok(new { Message = "Check out successfully!" });
         }
     }
 }
