@@ -69,5 +69,20 @@ namespace MiniStore.Controllers
             string announce = String.Format("Finish voucher success");
             return Ok(new { Message = announce });
         }
+
+        [EnableCors("Default")]
+        [HttpPut("reopenVoucher")]
+        public async Task<IActionResult> RestartVoucher(int voucherId)
+        {
+            var voucher = await _context.Vouchers.FirstOrDefaultAsync(c => c.Id == voucherId);
+            if(voucher == null) return BadRequest(new { Message = "Voucher is not existed" });
+            if (voucher.Status == true) return BadRequest(new { Message = "This voucher is still opened" });
+            voucher.StartTime = DateTime.Now;
+            voucher.ExpectedEndTime = DateTime.Now.AddDays(7);
+            voucher.ActualEndTime = voucher.ExpectedEndTime;
+            voucher.Status = true;
+            await _context.SaveChangesAsync();
+            return Ok(new { Message = "Restart voucher success" });
+        }
     }
 }
