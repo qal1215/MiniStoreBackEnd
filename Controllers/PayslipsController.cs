@@ -20,8 +20,8 @@ namespace MiniStore.Controllers
         }
 
         // GET: api/Payslips
-        [HttpGet]
-        [EnableCors("default")]
+        [HttpGet("get")]
+        [EnableCors("Default")]
         public async Task<ActionResult<IEnumerable<ViewPayslip>>> GetPayslips()
         {
             var result = await _context.Payslips
@@ -45,7 +45,7 @@ namespace MiniStore.Controllers
         }
 
         // GET: api/Payslips/5
-        [HttpGet("{id}")]
+        [HttpGet("get/{id}")]
         [EnableCors("default")]
         public async Task<ActionResult<ViewPayslip>> GetPayslip(string id)
         {
@@ -73,8 +73,8 @@ namespace MiniStore.Controllers
 
         // PUT: api/Payslips/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPut("{id}")]
-        [EnableCors("default")]
+        [HttpPut("update/{id}")]
+        [EnableCors("Default")]
 
         public async Task<IActionResult> PutPayslip(string id, UpdatePayslip update)
         {
@@ -108,10 +108,10 @@ namespace MiniStore.Controllers
 
         // POST: api/Payslips
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost]
+        [HttpPost("create")]
         [EnableCors("default")]
 
-        public async Task<ActionResult<Payslip>> PostPayslip(Payslip payslip)
+        public async Task<ActionResult<Payslip>> CreatePayslip(Payslip payslip)
         {
             Payslip model = new()
             {
@@ -136,8 +136,8 @@ namespace MiniStore.Controllers
         }
 
         // DELETE: api/Payslips/5
-        [HttpDelete("{id}")]
-        [EnableCors("default")]
+        [HttpDelete("delete/{id}")]
+        [EnableCors("Default")]
         public async Task<IActionResult> DeletePayslip(string id)
         {
             if (_context.Payslips == null)
