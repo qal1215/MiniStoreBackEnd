@@ -54,7 +54,6 @@ namespace MiniStore.Controllers
 
             return Ok(result);
         }
-
         [EnableCors("Default")]
         [HttpGet("month")]
         public async Task<ActionResult<RevenueResponse>> GetRevenueInMonth(int year, int month)
