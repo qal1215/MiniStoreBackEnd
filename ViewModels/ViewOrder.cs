@@ -27,7 +27,7 @@
 
         public decimal TotalAmount { get; set; }
 
-        public uint TotalItems { get; set; }
+        public int TotalItems { get; set; }
 
         public decimal Cash { get; set; }
 

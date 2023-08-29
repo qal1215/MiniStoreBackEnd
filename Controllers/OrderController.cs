@@ -77,6 +77,7 @@ namespace MiniStore.Controllers
         [HttpPost("")]
         public async Task<IActionResult> CreateOrder(CreateOrder order)
         {
+            if (order.OrderDetails == null || order.OrderDetails.Count == 0) return BadRequest(new { Message = "Order details is empty!" });
             List<OrderDetail> orderDetails = order.OrderDetails
                 .Select(od => new OrderDetail
                 {
@@ -89,8 +90,10 @@ namespace MiniStore.Controllers
             var saler = await _context.Employees.FirstOrDefaultAsync(e => e.Id == order.SalerId);
             if (saler == null) return BadRequest(new { Message = "Saler ID not correct!" });
 
-            var isOverStock = orderDetails.Any(o => o.Quantity > _context.Products.Where(p => p.Id.Equals(o.ProductId)).Select(p => p.Stock).FirstOrDefault());
+            var isInvalidQuantity = orderDetails.Any(o => o.Quantity < 0);
+            if (isInvalidQuantity) return BadRequest(new { Message = "Have invalid quantity!" });
 
+            var isOverStock = orderDetails.Any(o => o.Quantity > _context.Products.Where(p => p.Id.Equals(o.ProductId)).Select(p => p.Stock).FirstOrDefault());
             if (isOverStock) return BadRequest(new { Message = "Over stock!" });
 
             var totalItems = (uint)order.OrderDetails.Sum(od => od.Quantity);
